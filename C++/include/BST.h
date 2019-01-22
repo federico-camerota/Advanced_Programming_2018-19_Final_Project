@@ -33,7 +33,9 @@ class BST{
 	using iterator = BST_iterator;
 	using const_iterator = BST_const_iterator;
 
-        node_type* getMin() const;
+        node_type* get_min() const;
+
+        iterator find(key_type key, node_type* node) const;
 
         iterator begin() {return iterator{getMin()};}
         iterator end() {return iterator{nullptr};}
