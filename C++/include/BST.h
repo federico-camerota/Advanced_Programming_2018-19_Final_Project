@@ -7,7 +7,8 @@
 #include <utility>
 #include <memory>
 
-template <class K, class V, class Comp = std::less>
+
+template <class K, class V, class Comp = std::less<K>>
 class BST{
 
     public:
@@ -34,22 +35,23 @@ class BST{
 
 };
 
+
 template<class K, class V, class Comp>
 class BST<K,V,Comp>::BST_node {
 	static Comp compare;
 	std::unique_ptr<node_type> left_child, right_child;
 	node_type* parent;
-	std::unique_ptr<pair_type> data;
-	public:
-	BST_node() = default;
-	BST_node(key_type key, value_type value, const node_type* father)
-	 : left_child{nullptr}, right_child{nullptr}, parent{father}, data{key, value}
-	{}
-};
+	pair_type data;
 
-template<class K, class V, class Comp>
-class BST<K,V,Comp>::BST_iterator {
-	node_type* current;
+       	public:
+	    BST_node() = default;
+ 	    BST_node(const key_type key, value_type value, node_type* father)
+	     : left_child{nullptr}, right_child{nullptr}, parent{father}, data{key, value}
+	    {}
+	    std::unique_ptr<node_type>& get_left() {return left_child;}
+	    std::unique_ptr<node_type>& get_right() {return right_child;}
+            pair_type& get_data() {return data;}
+            node_type* get_parent() const {return parent;}
 };
 
 #endif
