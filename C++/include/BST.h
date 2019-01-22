@@ -26,12 +26,30 @@ class BST{
 
 	std::unique_ptr<node_type> root;
 	static node_type nullnode;
-	
+
     public:
 
 	using iterator = BST_iterator;
 	using const_iterator = BST_const_iterator;
 
-}
+};
+
+template<class K, class V, class Comp>
+class BST<K,V,Comp>::BST_node {
+	static Comp compare;
+	std::unique_ptr<node_type> left_child, right_child;
+	node_type* parent;
+	std::unique_ptr<pair_type> data;
+	public:
+	BST_node() = default;
+	BST_node(key_type key, value_type value, const node_type* father)
+	 : left_child{nullptr}, right_child{nullptr}, parent{father}, data{key, value}
+	{}
+};
+
+template<class K, class V, class Comp>
+class BST<K,V,Comp>::BST_iterator {
+	node_type* current;
+};
 
 #endif
