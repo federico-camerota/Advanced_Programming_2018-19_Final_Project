@@ -15,32 +15,27 @@ node_type* BST<K,V,Comp>::get_min() const {
 
 
 template<class K, class V, class Comp>
-iterator BST<K,V,Comp>::internal_find(key_type key, node_type* node) const {
-    if (node == nullptr) {
-        return end();    //return end iterator if not found
-    }
-    key_type curr_key = node->get_data().first;
-    if (!compare(curr_key, key) && !compare(key, curr_key)) {  //if current node has matching key, return an iterator to it
-        return iterator{node};
-    }
-    else if (compare(key, curr_key)) {    //if the key is smaller, move to the left subtree
-        return find(key, node->get_left().get());
-    }
-    else {    //otherwise move to the right subtree
-        return find(key, node->get_right().get());
-    }
-}
-
-
-template<class K, class V, class Comp>
 iterator BST<K,V,Comp>::find(key_type key) const {
-    return internal_find(key, root.get()); //call internal_find
+    node_type* current = root.get();
+    while (current) {
+        key_type curr_key = current->get_data().first;
+        if (!compare(curr_key, key) && !compare(key, curr_key)) {   //if current node has sought-after key, return an iterator to it
+            return iterator{current};
+        }
+        else if (compare(key, curr_key)) {    //if greater, proceed in the left subtree
+            current = current->get_left().get();
+        }
+        else {    //if smaller, proceed in the right subtree
+            current = current->get_right().get();
+        }
+        return end();    //if not found, return an iterator to null node
+    }
 }
 
 
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::insert( const node_type& subtree){
-    
+
     if (subtree == BST::nullnode) //check if target is a nullnode
 	return;
     insert(*(subtree.data)); //copy data in target to the new tree
