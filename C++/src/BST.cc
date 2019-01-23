@@ -5,9 +5,9 @@ template<class K, class V, class Comp>
 node_type* BST<K,V,Comp>::get_min() const {
     /** returns a pointer to the node having the minimum value.
       * If the tree is empty, return nullptr, otherwise go left as much as you can. */
-    if (root == nullptr) return nullptr;
+    if (root == nullptr) return nullptr; //if the tree is empty, return nullptr
     node_type* current = root.get();
-    while (current->get_left().get()) {
+    while (current->get_left().get()) {   //do down to the left as much as possible
         current = current->get_left().get();
     }
     return current;
@@ -16,28 +16,25 @@ node_type* BST<K,V,Comp>::get_min() const {
 
 template<class K, class V, class Comp>
 iterator BST<K,V,Comp>::internal_find(key_type key, node_type* node) const {
-    /** returns an iterator to the node corresponding to the input key, end()
-      * if it is not found. Exploits the sorted nature of the keys to recursively
-      * move down from the root. */
     if (node == nullptr) {
-        return end();
+        return end();    //return end iterator if not found
     }
     key_type curr_key = node->get_data().first;
-    if (!compare(curr_key, key) && !compare(key, curr_key)) {
+    if (!compare(curr_key, key) && !compare(key, curr_key)) {  //if current node has matching key, return an iterator to it
         return iterator{node};
     }
-    else if (compare(key, curr_key)) {
+    else if (compare(key, curr_key)) {    //if the key is smaller, move to the left subtree
         return find(key, node->get_left().get());
     }
-    else {
+    else {    //otherwise move to the right subtree
         return find(key, node->get_right().get());
     }
 }
 
 
 template<class K, class V, class Comp>
-iterator BST<K,V,Comp>::find(key_type key) {
-    return internal_find(key, root.get());
+iterator BST<K,V,Comp>::find(key_type key) const {
+    return internal_find(key, root.get()); //call internal_find
 }
 
 
