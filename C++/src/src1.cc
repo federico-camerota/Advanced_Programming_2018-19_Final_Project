@@ -15,8 +15,8 @@ node_type* BST<K,V,Comp>::get_min() const {
 
 
 template<class K, class V, class Comp>
-iterator BST<K,V,Comp>::find(key_type key, node_type* node) const {
-    /** returns an iterator to the node corresponding to the input key, end()
+iterator BST<K,V,Comp>::internal_find(key_type key, node_type* node) const {
+    /** private utility function. Returns an iterator to the node corresponding to the input key, end()
       * if it is not found. Exploits the sorted nature of the keys to recursively
       * move down from the root. */
     if (node == nullptr) {
@@ -32,4 +32,12 @@ iterator BST<K,V,Comp>::find(key_type key, node_type* node) const {
     else {
         return find(key, node->get_right().get());
     }
+}
+
+
+template<clas K, class V, class Comp>
+iterator BST<K,V,Comp>::find(key_type key) const {
+    /** interface for returning an iterator to a node with the
+      * given key. Calls internal_find. */
+    return internal_find(root.get());
 }
