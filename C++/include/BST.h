@@ -28,6 +28,8 @@ class BST{
 	std::unique_ptr<node_type> root;
 	static node_type nullnode;
 
+        iterator internal_find(key_type key, node_type* node) const;
+
     public:
 
 	using iterator = BST_iterator;
@@ -35,7 +37,7 @@ class BST{
 
         node_type* get_min() const;
 
-        iterator find(key_type key, node_type* node) const;
+        iterator find(key_type key) const;
 
         iterator begin() {return iterator{get_min()};}
         iterator end() {return iterator{&nullnode};}
