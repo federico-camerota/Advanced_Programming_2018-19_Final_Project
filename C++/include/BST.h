@@ -37,13 +37,13 @@ class BST{
 
         iterator find(key_type key, node_type* node) const;
 
-        iterator begin() {return iterator{getMin()};}
+        iterator begin() {return iterator{get_min()};}
         iterator end() {return iterator{&nullnode};}
 
-        const_iterator begin() const {return const_iterator{getMin()};}
+        const_iterator begin() const {return const_iterator{get_min()};}
         const_iterator end() const {return const_iterator{&nullnode};}
 
-        const_iterator cbegin() const {return const_iterator{getMin()};}
+        const_iterator cbegin() const {return const_iterator{get_min()};}
         const_iterator cend() const {return const_iterator{&nullnode};}
 
 };
