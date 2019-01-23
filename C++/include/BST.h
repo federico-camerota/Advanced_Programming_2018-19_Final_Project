@@ -25,6 +25,7 @@ class BST{
 	class BST_iterator;
 	class BST_const_iterator;
 
+	//!private alias for node type
 	using node_type = BST_node;
 
 	std::unique_ptr<node_type> root;
@@ -69,7 +70,9 @@ class BST{
 	~BST() = default;
 
 	
+	//!Alias for iterators
 	using iterator = BST_iterator;
+	//!Alias for const iterators
 	using const_iterator = BST_const_iterator;
 
         node_type* get_min() const;
@@ -94,7 +97,7 @@ class BST{
 	    insert(pair.first, pair.second);
 	}
 	/**
-	 * Insert a key-value pair in the BST formed by the given key and value.
+	 * Insert a key-value pair in the BST composed by the given key and value.
 	 * @param key the key in the pair
 	 * @param value the value in the pair
 	 */
