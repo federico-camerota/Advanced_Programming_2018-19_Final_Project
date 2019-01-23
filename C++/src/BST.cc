@@ -3,8 +3,6 @@
 
 template<class K, class V, class Comp>
 node_type* BST<K,V,Comp>::get_min() const {
-    /** returns a pointer to the node having the minimum value.
-      * If the tree is empty, return nullptr, otherwise go left as much as you can. */
     if (root == nullptr) return nullptr; //if the tree is empty, return nullptr
     node_type* current = root.get();
     while (current->get_left().get()) {   //do down to the left as much as possible
