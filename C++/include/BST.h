@@ -31,6 +31,11 @@ class BST{
 	std::unique_ptr<node_type> root;
 	static node_type nullnode;
 
+        /**
+         * Utility function to recursively find a given key exploiting the invariant on keys.
+         * @param key the sought-after key
+         * @param node the node currently under examination
+         */
         iterator internal_find(key_type key, node_type* node) const;
 
 	/**
@@ -79,16 +84,36 @@ class BST{
 	//!Alias for const iterators
 	using const_iterator = BST_const_iterator;
 
+        /**
+         * Return a pointer to the node having the smallest key.
+         */
         node_type* get_min() const;
 
+        /**
+         * Returns an iterator to the node corresponding to the input key, end()
+         * if it is not found.
+         * @param key the sought-after key
+         */
         iterator find(key_type key) const;
 
+        /**
+         * non-const begin and end functions. Allow the BST to support range for-loops.
+         * begin returns an iterator to the node having the smallest key, end returns an iterator
+         * to the null node.
+         */
         iterator begin() {return iterator{get_min()};}
         iterator end() {return iterator{&nullnode};}
 
+        /**
+         * const begin and end functions. They both return a const_iterator, according to the above rules
+         */
         const_iterator begin() const {return const_iterator{get_min()};}
         const_iterator end() const {return const_iterator{&nullnode};}
 
+        /**
+         * cbegin and cend behave like const begin and const end, but can be useful to force an algorithm
+         * of the STL to not modify input iterators.
+         */
         const_iterator cbegin() const {return const_iterator{get_min()};}
         const_iterator cend() const {return const_iterator{&nullnode};}
 
