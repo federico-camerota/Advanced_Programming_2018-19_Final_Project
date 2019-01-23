@@ -123,8 +123,7 @@ class BST<K,V,Comp>::BST_node {
 	     * @return a const reference to the key-value pair in the node.
 	     */
             const pair_type& get_data() const {return data;}
-            node_type* const get_parent() const {return parent;}
-            node_type* get_parent() {return parent;}
+            node_type* get_parent() const {return parent;}
 };
 
 #endif
