@@ -39,7 +39,7 @@ void BST<K,V,Comp>::insert( const node_type& subtree){
     
     if (subtree == BST::nullnode) //check if target is a nullnode
 	return;
-    insert(subtree.data); //copy data in target to the new tree
+    insert(*(subtree.data)); //copy data in target to the new tree
     if (subtree.left_child)
 	insert(*subtree.left_child); //copy left subtree
     if (subtree.right_child)
@@ -50,7 +50,7 @@ template<class K, class V, class Comp>
 void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
 
     if ((auto iter = find(key_type)) != end())
-	*iter.data = {key_type, value_type};
+	*((*iter).data) = {key_type, value_type};
     else{
     
 	node_type *current_node{root.get()};
