@@ -33,3 +33,16 @@ iterator BST<K,V,Comp>::find(key_type key, node_type* node) const {
         return find(key, node->get_right().get());
     }
 }
+
+template<class K, class V, class Comp>
+void BST<K,V,Comp>::insert( const node_type& subtree){
+    
+    if (subtree == BST::nullnode) //check if target is a nullnode
+	return;
+    insert(subtree.data()); //copy data in target to the new tree
+    if (subtree.get_left())
+	insert(*subtree.get_left()); //copy left subtree
+    if (subtree.get_right())
+	insert(*subtree.get_right()); //copy right subtree
+}
+
