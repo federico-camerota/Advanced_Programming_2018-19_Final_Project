@@ -31,13 +31,6 @@ class BST{
 	std::unique_ptr<node_type> root;
 	static node_type nullnode;
 
-        /**
-         * Utility function to recursively find a given key exploiting the invariant on keys.
-         * @param key the sought-after key
-         * @param node the node currently under examination
-         */
-        iterator internal_find(key_type key, node_type* node) const;
-
 	/**
 	 * Utility function to insert in the BST a full subtree. Elements of the subtree are
 	 * inserted in the BST starting at the root and then recursively inserting the
@@ -90,8 +83,8 @@ class BST{
         node_type* get_min() const;
 
         /**
-         * Returns an iterator to the node corresponding to the input key, end()
-         * if it is not found.
+         * Returns an iterator to the node corresponding having a key equal to the input key, end()
+         * if it is not found. Moves down the tree exploiting the ordering of the keys.
          * @param key the sought-after key
          */
         iterator find(key_type key) const;
