@@ -21,7 +21,7 @@ class BST{
 
     private:
 
-	class BST_node;
+	struct BST_node;
 	class BST_iterator;
 	class BST_const_iterator;
 
@@ -110,20 +110,19 @@ class BST<K,V,Comp>::BST_node {
 	node_type* parent;
 	pair_type data;
 
-       	public:
-	    BST_node() = default;
- 	    BST_node(const key_type key, value_type value, node_type* father)
-	     : left_child{nullptr}, right_child{nullptr}, parent{father}, data{key, value}
-	    {}
-	    std::unique_ptr<node_type>& get_left() {return left_child;}
-	    std::unique_ptr<node_type>& get_right() {return right_child;}
-            pair_type& get_data() {return data;}
-	    /**
-	     * Return a const reference to the key-value pair in the node.
-	     * @return a const reference to the key-value pair in the node.
-	     */
-            const pair_type& get_data() const {return data;}
-            node_type* get_parent() const {return parent;}
+	BST_node() = default;
+	BST_node(const key_type key, value_type value, node_type* father)
+	 : left_child{nullptr}, right_child{nullptr}, parent{father}, data{key, value}
+	{}
+	std::unique_ptr<node_type>& get_left() {return left_child;}
+	std::unique_ptr<node_type>& get_right() {return right_child;}
+	pair_type& get_data() {return data;}
+	/**
+	 * Return a const reference to the key-value pair in the node.
+	 * @return a const reference to the key-value pair in the node.
+	 */
+	const pair_type& get_data() const {return data;}
+	node_type* get_parent() const {return parent;}
 };
 
 #endif
