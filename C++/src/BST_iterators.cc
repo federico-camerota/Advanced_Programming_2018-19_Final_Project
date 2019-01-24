@@ -1,7 +1,7 @@
 #include <BST.h>
 #include <iterator>
 
-
+namespace {
 template<class K, class V, class Comp>
 class BST<K,V,Comp>::BST_iterator : public std::iterator<std::forward_iterator_tag, pair_type>{
 
@@ -37,8 +37,9 @@ class BST<K,V,Comp>::BST_iterator : public std::iterator<std::forward_iterator_t
         bool operator==(const BST_iterator& other) {return current == other.current;} //tests whether two iterators share the same current node
         bool operator!=(const BST_iterator& other) {return !(*this==other);}
 };
+}
 
-
+namespace {
 template<class K, class V, class Comp>
 class BST<K,V,Comp>::BST_const_iterator : BST<K,V,Comp>::BST_iterator {
     using base = BST<K,V,Comp>::BST_iterator;
@@ -50,3 +51,4 @@ class BST<K,V,Comp>::BST_const_iterator : BST<K,V,Comp>::BST_iterator {
     using base::operator==;
     using base::operator!=;
 };
+}
