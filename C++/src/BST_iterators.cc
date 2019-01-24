@@ -2,10 +2,12 @@
 #include <iterator>
 
 namespace {
-template<class K, class V, class Comp>
-class BST<K,V,Comp>::BST_iterator : public std::iterator<std::forward_iterator_tag, pair_type>{
+template<class K, class V>
+class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<const K,V>>{
 
     /**iterator class, compliant with the STL*/
+        using typename BST<K,V>::pair_type;
+        using node_type=BST_node<K,V>;
 
         node_type* current;
 
@@ -40,9 +42,10 @@ class BST<K,V,Comp>::BST_iterator : public std::iterator<std::forward_iterator_t
 }
 
 namespace {
-template<class K, class V, class Comp>
-class BST<K,V,Comp>::BST_const_iterator : BST<K,V,Comp>::BST_iterator {
-    using base = BST<K,V,Comp>::BST_iterator;
+template<class K, class V>
+class BST_const_iterator : public BST_iterator<K,V> {
+    using base = ::BST_iterator<K,V>;
+    using typename BST<K,V>::pair_type;
     /**populating with the functions of the iterator class, with the
       *exception of the dereferencing that is const as appropriate*/
     using base::BST_iterator;
