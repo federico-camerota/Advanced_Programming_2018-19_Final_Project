@@ -130,6 +130,7 @@ class BST{
 };
 
 
+<<<<<<< HEAD
 namespace{
     template<class K, class V>
     class BST_node {
@@ -141,16 +142,16 @@ namespace{
 
 	    std::unique_ptr<node_type> left_child, right_child;
 	    node_type* parent;
-	    std::unique_ptr<pair_type> data;
+	    pair_type data;
 
-	    BST_node() = default;
+	    BST_node() = delete;
 	    BST_node(const key_type key, value_type value, node_type* father)
-	     : left_child{nullptr}, right_child{nullptr}, parent{father}, data{new pair_type{key, value}}
+	     : left_child{nullptr}, right_child{nullptr}, parent{father}, data{key, value}
 	    {}
 	    ~BST_node() = default;
 	    std::unique_ptr<node_type>& get_left() {return left_child;}
 	    std::unique_ptr<node_type>& get_right() {return right_child;}
-	    pair_type& get_data() {return *data;}
+	    pair_type& get_data() {return data;}
 	    /**
 	     * Return a const reference to the key-value pair in the node.
 	     * @return a const reference to the key-value pair in the node.

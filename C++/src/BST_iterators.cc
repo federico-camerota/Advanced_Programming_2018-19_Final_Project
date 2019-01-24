@@ -12,29 +12,29 @@ class BST<K,V,Comp>::BST_iterator : public std::iterator<std::forward_iterator_t
     public:
         BST_iterator(node_type* n) : current{n} {}
 
-        pair_type& operator*() const {return current->get_data();} /**dereferencing operator, returns an std::pair<const K,V>*/
+        pair_type& operator*() const {return current->data;} /**dereferencing operator, returns an std::pair<const K,V>*/
 
         BST_iterator& operator++() {
         /**pre-increment operator, if the current node has a right child, go down right
           *and then as much to the left as possible, then return. Otherwise, go up until
           *you reach the root or you find a node that is not the right child of its parent*/
-            if (current->get_right().get() != nullptr) {
-                current = current->get_right().get();
-                while (current->get_left().get()) {
-                    current = current->get_left().get();
+            if (current->right_child != nullptr) {
+                current = current->right_child.get();
+                while (current->left_child.get()) {
+                    current = current->left_child.get();
                 }
                 return *this;
             }
-            auto p = current->get_parent();
-            while (p != nullptr && current == p->get_right().get()) {
+            node_type* p = current->parent;
+            while (p != nullptr && current == p->right_child.get()) {
                 current = p;
-                p = p->get_parent();
+                p = p->parent;
             }
             current = p;
             return *this;
         }
 
-        bool operator==(const BST_iterator& other) {return current == other.current;} /**equality tests whether two iterators share the same current node*/
+        bool operator==(const BST_iterator& other) {return current == other.current;} //tests whether two iterators share the same current node
         bool operator!=(const BST_iterator& other) {return !(*this==other);}
 };
 
