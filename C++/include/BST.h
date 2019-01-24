@@ -177,10 +177,6 @@ namespace{
 	     : left_child{nullptr}, right_child{nullptr}, parent{father}, data{key, value}
 	    {}
 	    ~BST_node() = default;
-	    std::unique_ptr<node_type>& get_left() {return left_child;}
-	    std::unique_ptr<node_type>& get_right() {return right_child;}
-	    pair_type& get_data() {return data;}
-	    node_type* get_parent() const {return parent;}
     };
 }
 #endif
