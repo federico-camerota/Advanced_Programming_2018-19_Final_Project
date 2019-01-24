@@ -75,6 +75,9 @@ void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
 
 }
 
+/**
+ * Utility function to insert median element in a given tree from a vector of pairs
+ */
 template <class K, class V, class Comp>
 static void insert_median(BST<K,V,Comp>& tree, std::vector<K,V>& vect, const size_t lo, const size_t hi){
 
@@ -98,8 +101,10 @@ static void insert_median(BST<K,V,Comp>& tree, std::vector<K,V>& vect, const siz
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::balance(){
 
+    
     std::vector<pair_type> pairs;
     for (const auto& x : *this) 
 	pairs.push_back(x);
+    clear();
     insert_median(*this, pairs, 0, pairs.size() - 1);
 }
