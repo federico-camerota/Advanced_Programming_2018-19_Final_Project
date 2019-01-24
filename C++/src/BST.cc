@@ -41,8 +41,36 @@ void BST<K,V,Comp>::insert( const node_type& subtree){
 	insert(*subtree.right_child); //copy right subtree
 }
 
+
+
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
 
+    if (root == nullptr){ //check if the BST is empty
     
+	root = new node_type{key, value, nullptr};
+	return;
+    }
+
+    node_type* previous_node{root.get()}; //initialize previous node to root
+    node_type* current_node{root.get()}; //initilize also the current node ptr to root
+    while (current_node) {
+
+	key_type current_key{current_node->data->first};
+        if (!compare(current_key, key) && !compare(key, current_key)) { //if the key is already in the tree update the value
+	    current_node->data->second = value;
+	    break;
+        }
+        else if (compare(key, current_key)) { // if the new key is smaller go to left subtree
+	    previous_node = current_node;
+            current_node = current_node->left_child.get();
+        }
+        else {    //if new key is bigger go to in the right subtree
+	    previous_node = current_node;
+            current_node = current_node->right_child.get();
+        }
+    }
+    auto& child = (compare(previous_node->data->first, key)) ? previous_node->left_child : previous_node->right_child;
+    child = new node_type{key, value, nullptr};
+
 }

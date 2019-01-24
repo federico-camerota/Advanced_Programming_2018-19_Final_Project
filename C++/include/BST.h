@@ -49,16 +49,13 @@ class BST{
 	/** 
 	 * Create an empty BST
 	 */
-	BST () 
-	    : root{new node_type{}}
-	{}
+	BST () = default;
 
 	/**
 	 * Copy constructor, create a new BST having the same key-value pairs as other
 	 * @param other BST to copy from
 	 */
 	BST (const BST<K,V,Comp> &other) 
-	    : BST()
 	{
 	    insert(*other.root);//recursively inserts all nodes in other starting at the root node
 	}
