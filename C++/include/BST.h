@@ -157,7 +157,7 @@ class BST{
 	}
 	
 	value_type& operator[] (const key_type&);
-	const value_type& operator[] (const key_type&) const;
+	const value_type& operator[] (const key_type&);
 
 };
 
