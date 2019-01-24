@@ -13,7 +13,7 @@ node_type* BST<K,V,Comp>::get_min() const {
 
 
 template<class K, class V, class Comp>
-iterator BST<K,V,Comp>::find(key_type key) const {
+iterator BST<K,V,Comp>::find(const key_type key) const {
     node_type* current = root.get();
     while (current) {
         key_type curr_key = current->get_data().first;

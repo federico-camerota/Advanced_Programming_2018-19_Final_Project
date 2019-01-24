@@ -129,7 +129,7 @@ class BST{
 
 
 template<class K, class V, class Comp>
-class BST<K,V,Comp>::BST_node {
+struct BST<K,V,Comp>::BST_node {
 	static Comp compare;
 	std::unique_ptr<node_type> left_child, right_child;
 	node_type* parent;
