@@ -74,3 +74,32 @@ void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
     child = new node_type{key, value, nullptr};
 
 }
+
+template <class K, class V, class Comp>
+static void insert_median(BST<K,V,Comp>& tree, std::vector<K,V>& vect, const size_t lo, const size_t hi){
+
+    if (hi-lo == 1){
+    
+	tree.insert(vect[lo]);
+	tree.insert(vect[hi]);
+	return;
+    }
+    if (hi == lo){
+    
+	tree.insert(vect[lo]);
+	return;
+    }
+    
+    size_t mid = lo + ((hi - lo) >> 1);
+    tree.insert(vect[mid]);
+    insert_median (tree, vect, lo, mid - 1);
+    insert_median (tree, vect,mid + 1, hi);
+}
+template<class K, class V, class Comp>
+void BST<K,V,Comp>::balance(){
+
+    std::vector<pair_type> pairs;
+    for (const auto& x : *this) 
+	pairs.push_back(x);
+    insert_median(*this, pairs, 0, pairs.size() - 1);
+}
