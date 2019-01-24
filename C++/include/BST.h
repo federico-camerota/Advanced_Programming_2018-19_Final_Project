@@ -137,6 +137,9 @@ class BST{
 	
 	    root.reset(nullptr);
 	}
+	
+	value_type& operator[] (const key_type&);
+	const value_type& operator[] (const key_type&) const;
 
 };
 

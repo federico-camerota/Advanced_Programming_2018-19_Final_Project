@@ -109,3 +109,14 @@ void BST<K,V,Comp>::balance(){
     clear();
     insert_median(*this, pairs, 0, pairs.size() - 1);
 }
+
+
+template<class K, class V, class Comp>
+typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key){
+
+    iterator iter = find(arg_key);
+    if (iter != end())
+	return (*iter).second;
+    insert(pair_type{arg_key, value_type{}});
+    return (*find(arg_key)).second;
+}
