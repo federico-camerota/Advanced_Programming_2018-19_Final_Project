@@ -130,7 +130,6 @@ class BST{
 };
 
 
-<<<<<<< HEAD
 namespace{
     template<class K, class V>
     class BST_node {
