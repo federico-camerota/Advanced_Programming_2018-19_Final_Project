@@ -1,5 +1,6 @@
 #include <BST.h>
 #include <vector>
+#include <iostream>
 
 
 template<class K, class V, class Comp>
@@ -112,11 +113,32 @@ void BST<K,V,Comp>::balance(){
 
 
 template<class K, class V, class Comp>
-typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key){
+typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) {
 
     iterator iter = find(arg_key);
     if (iter != end())
 	return (*iter).second;
     insert(pair_type{arg_key, value_type{}});
     return (*find(arg_key)).second;
+}
+
+
+template<class K, class V, class Comp>
+typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](key_type&& arg_key) {
+    iterator iter = find(arg_key);
+    if (iter != end()) {
+        return (*iter).second;
+    }
+    key_type temp_key = std::move(arg_key);
+    insert(temp_key, value_type{});
+    return (*find(arg_key)).second;
+}
+
+
+template<class K, class V, class Comp>
+std::ostream& operator<<(std::ostream& os, const BST<K,V,Comp>& tree) {
+    for (const auto& x : tree) {
+        os << x.first << ": " << x.second << std::endl;
+    }
+    return os;
 }
