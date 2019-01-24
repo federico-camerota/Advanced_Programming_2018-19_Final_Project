@@ -162,11 +162,6 @@ namespace{
 	    std::unique_ptr<node_type>& get_left() {return left_child;}
 	    std::unique_ptr<node_type>& get_right() {return right_child;}
 	    pair_type& get_data() {return data;}
-	    /**
-	     * Return a const reference to the key-value pair in the node.
-	     * @return a const reference to the key-value pair in the node.
-	     */
-	    const pair_type& get_data() const {return *data;}
 	    node_type* get_parent() const {return parent;}
     };
 }
