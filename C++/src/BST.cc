@@ -1,8 +1,9 @@
 #include <BST.h>
+#include <vector>
 
 
 template<class K, class V, class Comp>
-node_type* BST<K,V,Comp>::get_min() const {
+typename BST<K,V,Comp>::node_type* BST<K,V,Comp>::get_min() const {
     if (root == nullptr) return nullptr; //if the tree is empty, return nullptr
     node_type* current = root.get();
     while (current->left_child.get()) {   //do down to the left as much as possible
@@ -13,7 +14,7 @@ node_type* BST<K,V,Comp>::get_min() const {
 
 
 template<class K, class V, class Comp>
-iterator BST<K,V,Comp>::find(const key_type key) const {
+typename BST<K,V,Comp>::iterator BST<K,V,Comp>::find(const key_type key) const {
     node_type* current = root.get();
     while (current) {
         key_type curr_key = current->data.first;

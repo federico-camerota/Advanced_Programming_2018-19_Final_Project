@@ -31,7 +31,7 @@ class BST{
     private:
 
 	//!private alias for node type
-	using node_type = BST_node;
+	using node_type = BST_node<K,V>;
 
 	std::unique_ptr<node_type> root;
 	Comp compare{};
@@ -75,9 +75,9 @@ class BST{
 	
 	//!Alias for iterators
 
-	using iterator = BST_iterator;
+	using iterator = BST_iterator<K,V>;
 	//!Alias for const iterators
-	using const_iterator = BST_const_iterator;
+	using const_iterator = BST_const_iterator<K,V>;
 
         /**
          * Return a pointer to the node having the smallest key.
@@ -97,20 +97,20 @@ class BST{
          * to the null node.
          */
         iterator begin() {return iterator{get_min()};}
-        iterator end() {return iterator{&nullnode};}
+        iterator end() {return iterator{nullptr};}
 
         /**
          * const begin and end functions. They both return a const_iterator, according to the above rules
          */
         const_iterator begin() const {return const_iterator{get_min()};}
-        const_iterator end() const {return const_iterator{&nullnode};}
+        const_iterator end() const {return const_iterator{nullptr};}
 
         /**
          * cbegin and cend behave like const begin and const end, but can be useful to force an algorithm
          * of the STL to not modify input iterators.
          */
         const_iterator cbegin() const {return const_iterator{get_min()};}
-        const_iterator cend() const {return const_iterator{&nullnode};}
+        const_iterator cend() const {return const_iterator{nullptr};}
 
 	/**
 	 * Insert a key-value pair in the BST.
@@ -126,6 +126,17 @@ class BST{
 	 * @param value the value in the pair
 	 */
 	void insert(const key_type& key, const value_type& value);
+	/**
+	 * Balance the current BST.
+	 */
+	void balance();
+	/**
+	 * Remove all key-value pairs from the BST.
+	 */
+	void clear(){
+	
+	    root.reset(nullptr);
+	}
 
 };
 
@@ -134,9 +145,9 @@ namespace{
     template<class K, class V>
     class BST_node {
 	    
-	    using BST<K,V>::pair_type;
-	    using BST<K,V>::key_type;
-	    using BST<K,V>::value_type;
+	    using typename BST<K,V>::pair_type;
+	    using typename BST<K,V>::key_type;
+	    using typename BST<K,V>::value_type;
 	    using node_type=BST_node<K,V>;
 
 	    std::unique_ptr<node_type> left_child, right_child;
