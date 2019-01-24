@@ -7,6 +7,15 @@
 #include <utility>
 #include <memory>
 
+namespace {
+
+    template <class K, class V>
+    struct BST_node;
+    template <class K, class V>
+    class BST_iterator;
+    template <class K, class V>
+    class BST_const_iterator;
+}
 
 template <class K, class V, class Comp = std::less<K>>
 class BST{
@@ -21,15 +30,11 @@ class BST{
 
     private:
 
-	struct BST_node;
-	class BST_iterator;
-	class BST_const_iterator;
-
 	//!private alias for node type
 	using node_type = BST_node;
 
 	std::unique_ptr<node_type> root;
-	static node_type nullnode;
+	Comp compare{};
 
 	/**
 	 * Utility function to insert in the BST a full subtree. Elements of the subtree are
@@ -128,27 +133,33 @@ class BST{
 };
 
 
-template<class K, class V, class Comp>
-class BST<K,V,Comp>::BST_node {
-	static Comp compare;
-	std::unique_ptr<node_type> left_child, right_child;
-	node_type* parent;
-	std::unique_ptr<pair_type> data;
+namespace{
+    template<class K, class V>
+    class BST_node {
+	    
+	    using BST<K,V>::pair_type;
+	    using BST<K,V>::key_type;
+	    using BST<K,V>::value_type;
+	    using node_type=BST_node<K,V>;
 
-	BST_node() = default;
-	BST_node(const key_type key, value_type value, node_type* father)
-	 : left_child{nullptr}, right_child{nullptr}, parent{father}, data{new pair_type{key, value}}
-	{}
-	~BST_node() = default;
-	std::unique_ptr<node_type>& get_left() {return left_child;}
-	std::unique_ptr<node_type>& get_right() {return right_child;}
-	pair_type& get_data() {return *data;}
-	/**
-	 * Return a const reference to the key-value pair in the node.
-	 * @return a const reference to the key-value pair in the node.
-	 */
-	const pair_type& get_data() const {return *data;}
-	node_type* get_parent() const {return parent;}
-};
+	    std::unique_ptr<node_type> left_child, right_child;
+	    node_type* parent;
+	    std::unique_ptr<pair_type> data;
 
+	    BST_node() = default;
+	    BST_node(const key_type key, value_type value, node_type* father)
+	     : left_child{nullptr}, right_child{nullptr}, parent{father}, data{new pair_type{key, value}}
+	    {}
+	    ~BST_node() = default;
+	    std::unique_ptr<node_type>& get_left() {return left_child;}
+	    std::unique_ptr<node_type>& get_right() {return right_child;}
+	    pair_type& get_data() {return *data;}
+	    /**
+	     * Return a const reference to the key-value pair in the node.
+	     * @return a const reference to the key-value pair in the node.
+	     */
+	    const pair_type& get_data() const {return *data;}
+	    node_type* get_parent() const {return parent;}
+    };
+}
 #endif
