@@ -1,11 +1,13 @@
 #include <BST.h>
 #include <iterator>
 
-
-template<class K, class V, class Comp>
-class BST<K,V,Comp>::BST_iterator : public std::iterator<std::forward_iterator_tag, pair_type>{
+namespace {
+template<class K, class V>
+class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<const K,V>>{
 
     /**iterator class, compliant with the STL*/
+        using typename BST<K,V>::pair_type;
+        using node_type=BST_node<K,V>;
 
         node_type* current;
 
@@ -37,11 +39,13 @@ class BST<K,V,Comp>::BST_iterator : public std::iterator<std::forward_iterator_t
         bool operator==(const BST_iterator& other) {return current == other.current;} //tests whether two iterators share the same current node
         bool operator!=(const BST_iterator& other) {return !(*this==other);}
 };
+}
 
-
-template<class K, class V, class Comp>
-class BST<K,V,Comp>::BST_const_iterator : BST<K,V,Comp>::BST_iterator {
-    using base = BST<K,V,Comp>::BST_iterator;
+namespace {
+template<class K, class V>
+class BST_const_iterator : public BST_iterator<K,V> {
+    using base = ::BST_iterator<K,V>;
+    using typename BST<K,V>::pair_type;
     /**populating with the functions of the iterator class, with the
       *exception of the dereferencing that is const as appropriate*/
     using base::BST_iterator;
@@ -50,3 +54,4 @@ class BST<K,V,Comp>::BST_const_iterator : BST<K,V,Comp>::BST_iterator {
     using base::operator==;
     using base::operator!=;
 };
+}
