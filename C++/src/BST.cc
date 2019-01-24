@@ -5,8 +5,8 @@ template<class K, class V, class Comp>
 node_type* BST<K,V,Comp>::get_min() const {
     if (root == nullptr) return nullptr; //if the tree is empty, return nullptr
     node_type* current = root.get();
-    while (current->get_left().get()) {   //do down to the left as much as possible
-        current = current->get_left().get();
+    while (current->left_child.get()) {   //do down to the left as much as possible
+        current = current->left_child.get();
     }
     return current;
 }
@@ -16,15 +16,15 @@ template<class K, class V, class Comp>
 iterator BST<K,V,Comp>::find(const key_type key) const {
     node_type* current = root.get();
     while (current) {
-        key_type curr_key = current->get_data().first;
+        key_type curr_key = current->data.first;
         if (!compare(curr_key, key) && !compare(key, curr_key)) {   //if current node has sought-after key, return an iterator to it
             return iterator{current};
         }
         else if (compare(key, curr_key)) {    //if greater, proceed in the left subtree
-            current = current->get_left().get();
+            current = current->left_child.get();
         }
         else {    //if smaller, proceed in the right subtree
-            current = current->get_right().get();
+            current = current->right_child.get();
         }
         return end();    //if not found, return an iterator to null node
     }
@@ -52,10 +52,10 @@ void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
     
 	node_type *current_node{root.get()};
 	node_type *new_node{new node_type{key, value, nullptr}};
-	if (current_node == BST<K,V,Comp>::nullnode){ //check if the BST is empty 
+	if (current_node == BST<K,V,Comp>::nullnode){ //check if the BST is empty
 	
 	    current_node->parent=new_node; //set the new root node as parent of the nullnode
-	    new_node.right = (std::uniq_ptr<node_type>) root.release();//put the nullnode on the 
+	    new_node.right = (std::uniq_ptr<node_type>) root.release();//put the nullnode on the
 								       //right child of the new node
 	    root = (std::uniq_ptr<node_type>) new_node;//put the new node in root
 	    return;
