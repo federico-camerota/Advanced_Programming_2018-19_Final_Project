@@ -55,10 +55,20 @@ class BST{
 	 * Copy constructor, create a new BST having the same key-value pairs as other
 	 * @param other BST to copy from
 	 */
-	BST (const BST<K,V,Comp> &other) 
+	BST (const BST<K,V,Comp> &other)
 	{
 	    insert(*other.root);//recursively inserts all nodes in other starting at the root node
 	}
+        /**
+         * Copy assignment, copy all the members from one tree to this
+         * @param other BST to copy
+         */
+        BST& operator=(const BST<K,V,Comp> &other) {
+            clear();    //free any memory
+            auto temp{other};    //call copy constructor
+            (*this) = std::move(temp);    //call move assignment
+            return *this;
+        }
 	/**
 	 * Move constructor, create a new BST by swapping members.
 	 * @param other BST to move
@@ -67,6 +77,14 @@ class BST{
 
 	    root.swap(other.root);
 	}
+        /**
+         * Move assignment, move the members of other onto this.
+         * @param other BST to move
+         */
+        BST& operator=(BST<K,V,Comp> &&other) {
+            root = std::move(other.root);
+            return *this;
+        }
 	/**
 	 * Default destructor
 	 */
