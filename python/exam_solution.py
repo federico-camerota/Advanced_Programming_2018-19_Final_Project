@@ -1,5 +1,8 @@
 # python/exam_solution.py
 
+import datetime
+
+
 class PostcardsList:
 
     def __init__(self):
@@ -99,5 +102,26 @@ class PostcardsList:
 
         return len(self._postcards)
 
+    def getPostcardsByDateRange(self, date_range):
+        '''
+        Returns the postcards within a date_range
+        '''
+	ans = set()    #using a set avoids dealing with repetitions
+	start, end = date_range
+	for date, index_list in self._date.items():
+		ans.update([self._postcards[num] for num in index_list if start <= date <= end])
+	return list(ans)
+
+    def getPostcardsBySender(self, sender):
+	'''
+	Returns the postcards from a sender
+	'''
+	return [self._postcards[num] for num in range(getNumberOfPostcards()) if num in self._from[sender]]
+
+    def getPostcardsByReceiver(self, receiver):
+	'''
+	Returns the postcards to a receiver
+	'''
+	return [self._postcards[num] for num in range(getNumberOfPostcards()) if num in self._to[receiver]]
 
 
