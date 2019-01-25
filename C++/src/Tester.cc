@@ -1,6 +1,7 @@
 #include "BST.h"
 #include <iostream>
 #include <string>
+#include <stdexcept>
 
 namespace BST_testing{
 
@@ -195,12 +196,9 @@ namespace BST_testing{
         bst_type bst{};
         bst_type copy{};
         std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
-        std::vector<std::string> values(9);
+        std::vector<std::string> values;
         for (auto& x : keys) values.push_back(std::to_string(x));
         for (std::size_t i=0; i < keys.size(); ++i) bst.insert(keys[i], values[i]);
-
-        auto& original_root{bst.root.get()->data};
-        auto& original_min{*bst.get_min()};
 
         copy = std::move(bst);
 
@@ -208,14 +206,14 @@ namespace BST_testing{
         std::cout << "source test " << (result ? "passed" : "failed") << std::endl;
 
         result = result && copy.root != nullptr;
-        std::vector<bst::pair_type&> copy_nodes;
-        std::vector<bst::pair_type&> original_nodes;
+        std::vector<bst_type::pair_type> copy_nodes;
+        std::vector<bst_type::pair_type> original_nodes;
         for (auto& x : bst) original_nodes.push_back(x);
         for (auto& x : copy) copy_nodes.push_back(x);
 
         result = result && original_nodes.size() == copy_nodes.size();
         for (std::size_t i=0; i < original_nodes.size(); ++i) {
-            result = result && copy_nodes[i] == original_nodes[i]);
+            result = result && copy_nodes[i] == original_nodes[i];
             if (!result) break;
         }
 
@@ -229,16 +227,16 @@ namespace BST_testing{
 	using bst_type = BST<int, std::string>;
         bst_type bst{};
         std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
-        std::vector<std::string> values(9);
+        std::vector<std::string> values;
         for (auto& x : keys) values.push_back(std::to_string(x));
         for (std::size_t i=0; i < keys.size(); ++i) bst.insert(keys[i], values[i]);
 
-        auto min{bst.get_min().data.first - 1};
+        auto min{bst.get_min()->data.first - 1};
         bool result{};
         for (auto& x : bst) {
-            result = result && x > min;
+            result = result && x.first > min;
             if (!result) break;
-            else min = x;
+            else min = x.first;
         }
         std::cerr << "in-order traversal " << (result ? "passed" : "failed") << std::endl;
 
@@ -286,7 +284,7 @@ namespace BST_testing{
         for (auto& x: keys) result = result && bst.find(x) == bst.end();
         std::cerr << "find with empty tree " << (result ? "passed" : "failed") << std::endl;
         for (std::size_t i=0; i < keys.size(); ++i) {
-            result = result && bst.find(keys[i]) == end();
+            result = result && bst.find(keys[i]) == bst.end();
             bst.insert(keys[i], values[i]);    //automatically calls balance
             result = result && bst.find(keys[i]) != bst.end();
         }
