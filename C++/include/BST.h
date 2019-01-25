@@ -296,8 +296,9 @@ namespace BST_testing{
 	    bool bst_copy_ctor();
 	    bool bst_deep_copy();
 	    bool bst_move_ctor();
+            bool test_move_copy_assignment();
 	    bool bst_balance();
-	    bool iterators();
+	    bool test_iterators();
 	    bool test_find();
     };
 }
