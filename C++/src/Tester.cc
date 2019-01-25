@@ -203,6 +203,11 @@ namespace BST_testing{
         for (auto& x : keys) values.push_back(std::to_string(x));
         for (std::size_t i=0; i < keys.size(); ++i) bst.insert(keys[i], values[i]);
 
+        std::vector<bst_type::pair_type> copy_nodes;
+        std::vector<bst_type::pair_type> move_nodes;
+        std::vector<bst_type::pair_type> original_nodes;
+        for (auto& x : bst) original_nodes.push_back(x);
+
         copy = bst;
         _move = std::move(bst);
 
@@ -210,10 +215,6 @@ namespace BST_testing{
         std::cout << "source test " << (result ? "passed" : "failed") << std::endl;
 
         result = result && _move.root != nullptr && copy.root != nullptr;
-        std::vector<bst_type::pair_type> copy_nodes;
-        std::vector<bst_type::pair_type> move_nodes;
-        std::vector<bst_type::pair_type> original_nodes;
-        for (auto& x : bst) original_nodes.push_back(x);
         for (auto& x : copy) copy_nodes.push_back(x);
         for (auto& x : _move) move_nodes.push_back(x);
 
@@ -248,7 +249,7 @@ namespace BST_testing{
         for (std::size_t i=0; i < keys.size(); ++i) bst.insert(keys[i], values[i]);
 
         auto min{bst.get_min()->data.first - 1};
-        bool result{};
+        bool result{true};
         for (auto& x : bst) {
             result = result && x.first > min;
             if (!result) break;
@@ -263,28 +264,6 @@ namespace BST_testing{
             else ++i;
         }
         std::cerr << "dereferencing " << (result ? "passed" : "failed") << std::endl;
-/*
-        for (auto& x : bst) {
-            try {
-                 x.first = 0;
-                 result = result && false;
-            }
-            catch (...) {
-                result = result && true;
-            }
-        }
-        std::cerr << "keys' modifiability " << (result ? "passed" : "failed") << std::endl;
-
-        for (const auto& x : bst) {
-            try {
-                 x.second = "error";
-                 result = result && false;
-            }
-            catch (...) {
-                result = result && true;
-            }
-        }
-        std::cerr << "const iterator " << (result ? "passed" : "failed") << std::endl;*/
         return result;
     }
 
@@ -296,8 +275,8 @@ namespace BST_testing{
         std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
         std::vector<std::string> values(9);
         for (auto& x : keys) values.push_back(std::to_string(x));
-        bool result{};
-        for (auto& x: keys) result = result && bst.find(x) == bst.end();
+        bool result{true};
+        for (auto& x : keys) result = result && bst.find(x) == bst.end();
         std::cerr << "find with empty tree " << (result ? "passed" : "failed") << std::endl;
         for (std::size_t i=0; i < keys.size(); ++i) {
             result = result && bst.find(keys[i]) == bst.end();
@@ -307,6 +286,7 @@ namespace BST_testing{
         std::cerr << "find with balancing " << (result ? "passed" : "failed") << std::endl;
         return result;
     }
+
     bool Tester::bst_balance(){
     
 	std::cout << "** Testing BST balance **" << std::endl;

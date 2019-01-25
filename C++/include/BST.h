@@ -334,9 +334,8 @@ typename BST<K,V,Comp>::iterator BST<K,V,Comp>::find(const key_type key) const n
         else {    //if smaller, proceed in the right subtree
             current = current->right_child.get();
         }
-        return end();    //if not found, return an iterator to null node
     }
-    return end();
+    return end();    //if not found, return an iterator to null node
 }
 
 
