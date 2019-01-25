@@ -3,10 +3,14 @@
 #ifndef __BST_H__
 #define __BST_H__
 
+
 #include <functional>
 #include <utility>
 #include <memory>
 #include <vector>
+#include <stdexcept>
+#include <iostream>
+#include <iterator>
 
 
 #ifdef __BST_DEV__
@@ -183,7 +187,9 @@ class BST{
 
 };
 
-
+/**
+ * Node struct
+ */
 namespace{
     template<class K, class V>
     struct BST_node {
@@ -205,6 +211,69 @@ namespace{
     };
 }
 
+/**
+ * Iterator class, made compliant with the STL. In particular, the iterator allows to traverse the tree
+ * in-order, that is from the smallest to the greatest key.
+ */
+namespace {
+template<class K, class V>
+class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<const K,V>>{
+
+        using typename BST<K,V>::pair_type;
+        using node_type=BST_node<K,V>;
+
+        node_type* current;
+
+    public:
+        BST_iterator(node_type* n) : current{n} {}
+        /**
+         * dereferencing operator, returns an std::pair<const K, V> of the current node
+         */
+        pair_type& operator*() const {return current->data;}
+        /**
+         * pre-increment operator. Implements algorithm for retrieving
+         * the successor of a node.
+         */
+        BST_iterator& operator++() {
+            if (current->right_child != nullptr) {    //if current node has right child, go down right and then as much to the left as possible
+                current = current->right_child.get();
+                while (current->left_child.get()) {
+                    current = current->left_child.get();
+                }
+                return *this;
+            }
+            else {     //otherwise, go up until you reach the root or you find a node that is not the right child of its parent
+                node_type* p = current->parent;
+                while (p != nullptr && current == p->right_child.get()) {
+                    current = p;
+                    p = p->parent;
+                }
+                current = p;
+                return *this;
+            ]
+        }
+
+        bool operator==(const BST_iterator& other) {return current == other.current;} //tests whether two iterators share the same current node
+        bool operator!=(const BST_iterator& other) {return !(*this==other);}
+};
+}
+
+/**
+const_iterator class. Populated with the functions of the iterator class, with the
+exception of the dereferencing operator that is const, as appropriate
+*/
+namespace {
+template<class K, class V>
+class BST_const_iterator : public BST_iterator<K,V> {
+    using base = ::BST_iterator<K,V>;
+    using typename BST<K,V>::pair_type;
+    using base::BST_iterator;
+    const pair_type& operator*() const {return base::operator*();}
+    using base::operator++;
+    using base::operator==;
+    using base::operator!=;
+};
+}
 
 
 #ifdef __BST_DEV__
@@ -223,6 +292,40 @@ namespace BST_testing{
     };
 }
 #endif
+
+/**
+ * get_min function
+ */
+template<class K, class V, class Comp>
+typename BST<K,V,Comp>::node_type* BST<K,V,Comp>::get_min() const noexcept {
+    if (root == nullptr) return nullptr; //if the tree is empty, return nullptr
+    node_type* current = root.get();
+    while (current->left_child.get()) {   //do down to the left as much as possible
+        current = current->left_child.get();
+    }
+    return current;
+}
+
+/**
+ * find function
+ */
+template<class K, class V, class Comp>
+typename BST<K,V,Comp>::iterator BST<K,V,Comp>::find(const key_type key) const noexcept {
+    node_type* current = root.get();
+    while (current) {
+        key_type curr_key = current->data.first;
+        if (!compare(curr_key, key) && !compare(key, curr_key)) {   //if current node has sought-after key, return an iterator to it
+            return iterator{current};
+        }
+        else if (compare(key, curr_key)) {    //if greater, proceed in the left subtree
+            current = current->left_child.get();
+        }
+        else {    //if smaller, proceed in the right subtree
+            current = current->right_child.get();
+        }
+        return end();    //if not found, return an iterator to null node
+    }
+}
 
 
 template<class K, class V, class Comp>
@@ -265,6 +368,7 @@ void BST<K,V,Comp>::insert( const node_type& subtree){
     if (subtree.right_child)
 	insert(*subtree.right_child); //copy right subtree
 }
+
 /**
  * Utility function to insert median element in a given tree from a vector of pairs
  */
@@ -291,9 +395,9 @@ static void insert_median(BST<K,V,Comp>& tree, std::vector<K,V>& vect, const siz
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::balance(){
 
-    
+
     std::vector<pair_type> pairs;
-    for (const auto& x : *this) 
+    for (const auto& x : *this)
 	pairs.push_back(x);
     clear();
     insert_median(*this, pairs, 0, pairs.size() - 1);
@@ -319,5 +423,18 @@ const typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](key_type&& a
     }
     throw std::out_of_range{"const operator[] trying to access key not present in given BST"};
 }
+
+/**
+ * Overload of the operator<<, allows to print
+ * the key: value pairs of the tree in-order.
+ */
+template<class K, class V, class Comp>
+std::ostream& operator<<(std::ostream& os, const BST<K,V,Comp>& tree) {
+    for (const auto& x : tree) {
+        os << x.first << ": " << x.second << std::endl;    //iterate in order and print the key: value pairs
+    }
+    return os;
+}
+
 
 #endif
