@@ -283,6 +283,8 @@ namespace BST_testing{
     
 	public:
 
+	    Tester() = default;
+
 	    void test();
 	    bool bst_default_ctor();
 	    bool bst_insert();
