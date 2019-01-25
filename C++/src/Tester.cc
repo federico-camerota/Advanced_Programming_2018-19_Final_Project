@@ -262,7 +262,7 @@ namespace BST_testing{
             else ++i;
         }
         std::cerr << "dereferencing " << (result ? "passed" : "failed") << std::endl;
-
+/*
         for (auto& x : bst) {
             try {
                  x.first = 0;
@@ -283,7 +283,7 @@ namespace BST_testing{
                 result = result && true;
             }
         }
-        std::cerr << "const iterator " << (result ? "passed" : "failed") << std::endl;
+        std::cerr << "const iterator " << (result ? "passed" : "failed") << std::endl;*/
         return result;
     }
 
