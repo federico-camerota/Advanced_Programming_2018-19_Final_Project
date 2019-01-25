@@ -12,6 +12,7 @@ namespace BST_testing{
 	bst_insert();
 	if(bst_copy_ctor())
 	    bst_deep_copy();
+	bst_move_ctor();
 	
     }
 
@@ -140,6 +141,52 @@ namespace BST_testing{
 	return result;
     }
 
+    bool Tester::bst_move_ctor(){
+    
+	std::cout << "** Testing BST move constructor **" << std::endl;
+	using bst_type = BST<int, std::string>;
+	bst_type bst{};
+	bst.insert({8, "eight"});
+	bst.insert(10, "ten");
+	bst.insert(3, "three");
+
+	bst_type copy{std::move(bst)};
+
+	bool result{bst.root == nullptr};
+	std::cout << "source test " << (result ? "passed" : "failed") << std::endl;
+
+	result = result && copy.root != nullptr;
+	if (result){
+
+	    bst_type::node_type& root_node{*copy.root};
+	    result = result && root_node.data.first == 8 && root_node.data.second == "eight";
+	    result = result && root_node.parent == nullptr;
+	    std::cerr << "copy root node test " << (result ?  "passed" : "failed") << std::endl;
+	    if (result){
+
+		result = result && root_node.right_child != nullptr;
+		if (result){
+		
+		    bst_type::node_type& right_node{*root_node.right_child};
+		    result = result && right_node.data.first == 10 && right_node.data.second == "ten";
+		    result = result && right_node.left_child == nullptr && right_node.right_child == nullptr;
+		    result = result && right_node.parent == &root_node;
+		}
+		std::cerr << "copy right node test " << (result ?  "passed" : "failed") << std::endl;
+		result = result && root_node.left_child != nullptr;
+		if (result){
+		
+		    bst_type::node_type& left_node{*root_node.left_child};
+		    result = result && left_node.data.first == 3 && left_node.data.second == "three";
+		    result = result && left_node.left_child == nullptr && left_node.right_child == nullptr;
+		    result = result && left_node.parent == &root_node;
+		}
+		std::cerr << "copy left node test " << (result ?  "passed" : "failed") << std::endl;
+	    }
+	}
+	std::cerr << "overall test " << (result ?  "passed" : "failed") << std::endl;
+	return result;
+    }
 
 
 }
