@@ -10,7 +10,7 @@
 
 #ifdef __BST_DEV__
 /**
- * Namespace containing all the testing tools for BST and 
+ * Namespace containing all the testing tools for BST and
  * related classes.
  */
 namespace BST_testing {
@@ -94,7 +94,7 @@ class BST{
 	 * Move constructor, create a new BST by swapping members.
 	 * @param other BST to move
 	 */
-	BST (BST<K,V,Comp> &&other) {
+	BST (BST<K,V,Comp> &&other) noexcept {
 
 	    root.swap(other.root);
 	}
@@ -102,7 +102,7 @@ class BST{
          * Move assignment, move the members of other onto this.
          * @param other BST to move
          */
-        BST& operator=(BST<K,V,Comp> &&other) {
+        BST& operator=(BST<K,V,Comp> &&other) noexcept {
             root = std::move(other.root);
             return *this;
         }
@@ -121,35 +121,35 @@ class BST{
         /**
          * Return a pointer to the node having the smallest key.
          */
-        node_type* get_min() const;
+        node_type* get_min() const noexcept;
 
         /**
          * Returns an iterator to the node corresponding having a key equal to the input key, end()
          * if it is not found. Moves down the tree exploiting the ordering of the keys.
          * @param key the sought-after key
          */
-        iterator find(key_type key) const;
+        iterator find(key_type key) const noexcept;
 
         /**
          * non-const begin and end functions. Allow the BST to support range for-loops.
          * begin returns an iterator to the node having the smallest key, end returns an iterator
          * to the null node.
          */
-        iterator begin() {return iterator{get_min()};}
-        iterator end() {return iterator{nullptr};}
+        iterator begin() noexcept {return iterator{get_min()};}
+        iterator end() noexcept {return iterator{nullptr};}
 
         /**
          * const begin and end functions. They both return a const_iterator, according to the above rules
          */
-        const_iterator begin() const {return const_iterator{get_min()};}
-        const_iterator end() const {return const_iterator{nullptr};}
+        const_iterator begin() const noexcept {return const_iterator{get_min()};}
+        const_iterator end() const noexcept {return const_iterator{nullptr};}
 
         /**
          * cbegin and cend behave like const begin and const end, but can be useful to force an algorithm
          * of the STL to not modify input iterators.
          */
-        const_iterator cbegin() const {return const_iterator{get_min()};}
-        const_iterator cend() const {return const_iterator{nullptr};}
+        const_iterator cbegin() const noexcept {return const_iterator{get_min()};}
+        const_iterator cend() const noexcept {return const_iterator{nullptr};}
 
 	/**
 	 * Insert a key-value pair in the BST.
@@ -177,7 +177,7 @@ class BST{
 	    root.reset(nullptr);
 	}
 	
-	value_type& operator[] (const key_type&);
+	value_type& operator[] (const key_type&) noexcept;
 	const value_type& operator[] (key_type&&) const;
 
 };
