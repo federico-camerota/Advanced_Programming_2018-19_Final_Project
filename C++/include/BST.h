@@ -109,7 +109,7 @@ class BST{
 	/**
 	 * Default destructor
 	 */
-	~BST() = default;
+	~BST() noexcept = default;
 
 	
 	//!Alias for iterators

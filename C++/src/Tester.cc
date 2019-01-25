@@ -4,8 +4,9 @@
 
 namespace BST_testing{
 
+    Tester::Tester() = default;
+
     void Tester::test(){
-    
 
 	bst_default_ctor();	
     }
@@ -20,5 +21,4 @@ namespace BST_testing{
 	std::cerr << "test " << (result ?  "passed" : "failed") << std::endl;
 	return result;
     }
-
 }
