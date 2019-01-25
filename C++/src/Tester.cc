@@ -186,33 +186,63 @@ namespace BST_testing{
 	return result;
     }
 
-    bool Tester::iterators() {
+    bool Tester::test_move_assignment() {
+        std::cout << "** Testing BST move assignment **" << std::endl;
+        using bst_type = BST<int, std::string>;
+        bst_type bst{};
+        bst_type copy{};
+        std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
+        std::vector<std::string> values(9);
+        for (auto& x : keys) values.push_back(std::to_string(x));
+        for (std::size_t i=0; i < keys.size(); ++i) bst.insert(keys[i], values[i]);
+
+        auto& original_root{bst.root.get()->data};
+        auto& original_min{*bst.get_min()};
+
+        copy = std::move(bst);
+
+        bool result{bst.root == nullptr};
+        std::cout << "source test " << (result ? "passed" : "failed") << std::endl;
+
+        result = result && copy.root != nullptr;
+        std::vector<bst::pair_type&> copy_nodes;
+        std::vector<bst::pair_type&> original_nodes;
+        for (auto& x : bst) original_nodes.push_back(x);
+        for (auto& x : copy) copy_nodes.push_back(x);
+
+        result = result && original_nodes.size() == copy_nodes.size();
+        for (std::size_t i=0; i < original_nodes.size(); ++i) {
+            result = result && copy_nodes[i] == original_nodes[i]);
+            if (!result) break;
+        }
+
+        std::cerr << "overall test " << (result ?  "passed" : "failed") << std::endl;
+        return result;
+    }
+
+    bool Tester::test_iterators() {
+        using bst_type = BST<int, std::string>;
         std::cout << "** Testing BST_iterator and BST_const_iterator classes **" << std::endl;
         bst_type bst{};
         std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
         std::vector<std::string> values(9);
-        for (auto& x : keys) values.push_back(std::to_string(x));/*
-        bst.insert(8, "eight");
-        bst.insert(10, "ten");
-        bst.insert(3, "three");
-        bst.insert(1, "one");
-        bst.insert(4, "four");
-        bst.insert(6, "six");
-        bst.insert(7, "seven");
-        bst.insert(13, "thirteen");*/
+        for (auto& x : keys) values.push_back(std::to_string(x));
+        for (std::size_t i=0; i < keys.size(); ++i) bst.insert(keys[i], values[i]);
 
         auto min{bst.get_min().data.first - 1};
         bool result{};
         for (auto& x : bst) {
             result = result && x > min;
-            min = x;
+            if (!result) break;
+            else min = x;
         }
         std::cerr << "in-order traversal " << (result ? "passed" : "failed") << std::endl;
 
         std::size_t i{0};
         for (auto& x : bst) {
             result = result && keys[i] == x.first && values[i] == x.second;
-            ++i;
+            if (!result) break;
+            else ++i;
         }
         std::cerr << "dereferencing " << (result ? "passed" : "failed") << std::endl;
 
@@ -241,6 +271,8 @@ namespace BST_testing{
     }
 
     bool Tester::test_find() {
+        using bst_type = BST<int, std::string>;
+        std::cout << "** Testing find function with balancing **" << std::endl;
         bst_type bst{};
         std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
         std::vector<std::string> values(9);
