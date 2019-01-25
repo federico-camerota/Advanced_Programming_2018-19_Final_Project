@@ -5,7 +5,7 @@
 
 
 template<class K, class V, class Comp>
-typename BST<K,V,Comp>::node_type* BST<K,V,Comp>::get_min() const {
+typename BST<K,V,Comp>::node_type* BST<K,V,Comp>::get_min() const noexcept {
     if (root == nullptr) return nullptr; //if the tree is empty, return nullptr
     node_type* current = root.get();
     while (current->left_child.get()) {   //do down to the left as much as possible
@@ -16,7 +16,7 @@ typename BST<K,V,Comp>::node_type* BST<K,V,Comp>::get_min() const {
 
 
 template<class K, class V, class Comp>
-typename BST<K,V,Comp>::iterator BST<K,V,Comp>::find(const key_type key) const {
+typename BST<K,V,Comp>::iterator BST<K,V,Comp>::find(const key_type key) const noexcept {
     node_type* current = root.get();
     while (current) {
         key_type curr_key = current->data.first;
@@ -114,7 +114,7 @@ void BST<K,V,Comp>::balance(){
 
 
 template<class K, class V, class Comp>
-typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) {
+typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) noexcept {
 
     iterator iter = find(arg_key);
     if (iter != end())
