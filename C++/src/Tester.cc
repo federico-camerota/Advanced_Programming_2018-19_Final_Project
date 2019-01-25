@@ -18,6 +18,7 @@ namespace BST_testing{
 	test_find();
 	
 	bst_balance();
+        test_clear();
     }
 
     bool Tester::bst_default_ctor(){
@@ -239,7 +240,7 @@ namespace BST_testing{
         return result;
     }
     bool Tester::test_iterators() {
-        using bst_type = BST<int, std::string>;
+
         std::cout << "** Testing BST_iterator and BST_const_iterator classes **" << std::endl;
 	using bst_type = BST<int, std::string>;
         bst_type bst{};
@@ -313,5 +314,31 @@ namespace BST_testing{
 	    
 	std::cout << "test " << (result ?  "passed" : "failed") << std::endl;
 	return result;
+    }
+
+    bool Tester::test_clear() {
+
+        std::cout << "** Testing clear function **" << std::endl;
+        using bst_type = BST<int, std::string>;
+        bst_type bst{};
+        std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
+        std::vector<std::string> values;
+        for (auto& x : keys) values.push_back(std::to_string(x));
+        for (std::size_t i=0; i < keys.size(); ++i) bst.insert(keys[i], values[i]);
+
+        bool result{true};
+
+        bst.clear();
+
+        int count{0};
+        for (auto& x : bst) {
+            ++count;
+            (void)x;    //suppress unused variable warning
+        }
+
+        result = result && count == 0;
+        result = result && bst.root == nullptr;
+        std::cout << "test clear " << (result ?  "passed" : "failed") << std::endl;
+        return result;
     }
 }

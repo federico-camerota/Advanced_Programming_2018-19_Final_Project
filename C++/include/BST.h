@@ -300,6 +300,7 @@ namespace BST_testing{
 	    bool bst_balance();
 	    bool test_iterators();
 	    bool test_find();
+            bool test_clear();
     };
 }
 #endif
