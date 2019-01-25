@@ -204,6 +204,9 @@ namespace{
     };
 }
 
+
+
+#ifdef __BST_DEV__
 namespace BST_testing{
 
     class Tester{
@@ -214,5 +217,6 @@ namespace BST_testing{
 	    bool bst_default_ctor();
     };
 }
+#endif
 
 #endif
