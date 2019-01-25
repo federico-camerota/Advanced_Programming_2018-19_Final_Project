@@ -190,32 +190,47 @@ namespace BST_testing{
 	return result;
     }
 
-    bool Tester::test_move_assignment() {
-        std::cout << "** Testing BST move assignment **" << std::endl;
+    bool Tester::test_move_copy_assignment() {
+        std::cout << "** Testing BST move and copy assignments **" << std::endl;
         using bst_type = BST<int, std::string>;
         bst_type bst{};
+        bst_type _move{};
         bst_type copy{};
         std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
         std::vector<std::string> values;
         for (auto& x : keys) values.push_back(std::to_string(x));
         for (std::size_t i=0; i < keys.size(); ++i) bst.insert(keys[i], values[i]);
 
-        copy = std::move(bst);
+        copy = bst;
+        _move = std::move(bst);
 
         bool result{bst.root == nullptr};
         std::cout << "source test " << (result ? "passed" : "failed") << std::endl;
 
-        result = result && copy.root != nullptr;
+        result = result && _move.root != nullptr && copy.root != nullptr;
         std::vector<bst_type::pair_type> copy_nodes;
+        std::vector<bst_type::pair_type> move_nodes;
         std::vector<bst_type::pair_type> original_nodes;
         for (auto& x : bst) original_nodes.push_back(x);
         for (auto& x : copy) copy_nodes.push_back(x);
+        for (auto& x : _move) move_nodes.push_back(x);
 
         result = result && original_nodes.size() == copy_nodes.size();
+        std::cerr << "copy size test " << (result ?  "passed" : "failed") << std::endl;
+        result = result && original_nodes.size() == move_nodes.size();
+        std::cerr << "move size test " << (result ?  "passed" : "failed") << std::endl;
+
         for (std::size_t i=0; i < original_nodes.size(); ++i) {
             result = result && copy_nodes[i] == original_nodes[i];
             if (!result) break;
         }
+        std::cerr << "copy test " << (result ?  "passed" : "failed") << std::endl;
+
+        for (std::size_t i=0; i < original_nodes.size(); ++i) {
+            result = result && move_nodes[i] == original_nodes[i];
+            if (!result) break;
+        }
+        std::cerr << "move test " << (result ?  "passed" : "failed") << std::endl;
 
         std::cerr << "overall test " << (result ?  "passed" : "failed") << std::endl;
         return result;
