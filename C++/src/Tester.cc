@@ -188,5 +188,56 @@ namespace BST_testing{
 	return result;
     }
 
+    bool Tester::iterators() {
+        std::cout << "** Testing BST_iterator and BST_const_iterator classes **" << std::endl;
+        bst_type bst{};
+        std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
+        std::vector<std::string> values(9);
+        for (auto& x : keys) values.push_back(std::to_string(x));/*
+        bst.insert(8, "eight");
+        bst.insert(10, "ten");
+        bst.insert(3, "three");
+        bst.insert(1, "one");
+        bst.insert(4, "four");
+        bst.insert(6, "six");
+        bst.insert(7, "seven");
+        bst.insert(13, "thirteen");*/
 
+        auto min{bst.get_min().data.first - 1};
+        bool result{};
+        for (auto& x : bst) {
+            result = result && x > min;
+            min = x;
+        }
+        std::cerr << "in-order traversal " << (result ? "passed" : "failed") << std::endl;
+
+        std::size_t i{0};
+        for (auto& x : bst) {
+            result = result && keys[i] == x.first && values[i] == x.second;
+            ++i;
+        }
+        std::cerr << "dereferencing " << (result ? "passed" : "failed") << std::endl;
+
+        for (auto& x : bst) {
+            try {
+                 x.first = 0;
+                 result = result && false;
+            }
+            catch (...) {
+                result = result && true;
+            }
+        }
+        std::cerr << "keys' modifiability " << (result ? "passed" : "failed") << std::endl;
+
+        for (const auto& x : bst) {
+            try {
+                 x.second = "error";
+                 result = result && false;
+            }
+            catch (...) {
+                result = result && true;
+            }
+        }
+        std::cerr << "const iterator " << (result ? "passed" : "failed") << std::endl;
+    }
 }
