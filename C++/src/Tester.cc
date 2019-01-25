@@ -237,5 +237,23 @@ namespace BST_testing{
             }
         }
         std::cerr << "const iterator " << (result ? "passed" : "failed") << std::endl;
+        return result;
+    }
+
+    bool Tester::test_find() {
+        bst_type bst{};
+        std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
+        std::vector<std::string> values(9);
+        for (auto& x : keys) values.push_back(std::to_string(x));
+        bool result{};
+        for (auto& x: keys) result = result && bst.find(x) == bst.end();
+        std::cerr << "find with empty tree " << (result ? "passed" : "failed") << std::endl;
+        for (std::size_t i=0; i < keys.size(); ++i) {
+            result = result && bst.find(keys[i]) == end();
+            bst.insert(keys[i], values[i]);    //automatically calls balance
+            result = result && bst.find(keys[i]) != bst.end();
+        }
+        std::cerr << "find with balancing " << (result ? "passed" : "failed") << std::endl;
+        return result;
     }
 }
