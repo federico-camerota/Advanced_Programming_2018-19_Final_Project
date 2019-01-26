@@ -187,9 +187,9 @@ namespace{
     template<class K, class V>
     struct BST_node {
 	    
-	    using typename BST<K,V>::pair_type;
-	    using typename BST<K,V>::key_type;
-	    using typename BST<K,V>::value_type;
+	    using pair_type=typename BST<K,V>::pair_type;
+	    using key_type=typename BST<K,V>::key_type;
+	    using value_type=typename BST<K,V>::value_type;
 	    using node_type=BST_node<K,V>;
 
 	    std::unique_ptr<node_type> left_child, right_child;
@@ -204,5 +204,15 @@ namespace{
     };
 }
 
+namespace BST_testing{
+
+    class Tester{
+    
+	public:
+
+	    void test();
+	    bool bst_default_ctor();
+    };
+}
 
 #endif
