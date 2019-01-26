@@ -137,7 +137,7 @@ class BST{
          * if it is not found. Moves down the tree exploiting the ordering of the keys.
          * @param key the sought-after key
          */
-        iterator find(key_type key) const noexcept;
+        iterator find(const key_type key) const noexcept;
 
         /**
          * non-const begin and end functions. Allow the BST to support range for-loops.
