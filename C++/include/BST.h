@@ -181,7 +181,7 @@ class BST{
 
 namespace{
     template<class K, class V>
-    class BST_node {
+    struct BST_node {
 	    
 	    using typename BST<K,V>::pair_type;
 	    using typename BST<K,V>::key_type;
