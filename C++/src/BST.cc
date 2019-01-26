@@ -124,14 +124,12 @@ typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& ar
 
 
 template<class K, class V, class Comp>
-typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](key_type&& arg_key) {
+typename const BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](key_type&& arg_key) const {
     iterator iter = find(arg_key);
     if (iter != end()) {
         return (*iter).second;
     }
-    key_type temp_key = std::move(arg_key);
-    insert(temp_key, value_type{});
-    return (*find(arg_key)).second;
+    throw std::out_of_range{"const operator[] trying to access key not present in given BST"};
 }
 
 

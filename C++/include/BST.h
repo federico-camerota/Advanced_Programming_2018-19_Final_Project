@@ -15,6 +15,10 @@
  */
 namespace BST_testing {
 
+    /**
+     * The Tester class provides a suit of tests to be performed on the
+     * BST and related classes to test their correctness
+     */
     class Tester;
 }
 #endif
@@ -174,7 +178,7 @@ class BST{
 	}
 	
 	value_type& operator[] (const key_type&);
-	value_type& operator[] (key_type&&);
+	const value_type& operator[] (key_type&&) const;
 
 };
 
