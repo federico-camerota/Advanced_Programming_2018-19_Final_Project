@@ -7,6 +7,19 @@
 #include <utility>
 #include <memory>
 
+
+#ifdef __BST_DEV__
+/**
+ * Namespace containing all the testing tools for BST and 
+ * related classes.
+ */
+namespace BST_testing {
+
+    class Tester;
+}
+#endif
+
+
 namespace {
 
     template <class K, class V>
@@ -27,6 +40,10 @@ class BST{
 	using value_type = V;
 	//!Alias for the key-value pair. The key is declared as const to prevent it from being changed once in the tree.
 	using pair_type = std::pair< const K, V>;
+
+	#ifdef __BST_DEV__
+	friend BST_testing::Tester;
+	#endif
 
     private:
 
@@ -182,4 +199,6 @@ namespace{
 	    ~BST_node() = default;
     };
 }
+
+
 #endif
