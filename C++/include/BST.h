@@ -181,13 +181,15 @@ class BST{
 	/**
 	 * Remove all key-value pairs from the BST.
 	 */
-	void clear(){
-	
+	void clear() {
+
 	    root.reset(nullptr);
 	}
-	
+	/**
+         * Overload of the operator[], in const and non-const version
+         */
 	value_type& operator[] (const key_type&);
-	const value_type& operator[] (key_type&&) const;
+	const value_type& operator[] (const key_type&) const;
 
 };
 
@@ -197,7 +199,7 @@ class BST{
 namespace{
     template<class K, class V>
     struct BST_node {
-	    
+
 	    using pair_type=typename BST<K,V>::pair_type;
 	    using key_type=typename BST<K,V>::key_type;
 	    using value_type=typename BST<K,V>::value_type;
@@ -254,9 +256,11 @@ class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<c
                 }
                 current = p;
                 return *this;
-	    }    
+	    }
         }
-
+        /**
+         * Comparison operators
+         */
         bool operator==(const BST_iterator& other) {return current == other.current;} //tests whether two iterators share the same current node
         bool operator!=(const BST_iterator& other) {return !(*this==other);}
 };
@@ -339,7 +343,9 @@ typename BST<K,V,Comp>::iterator BST<K,V,Comp>::find(const key_type key) const n
     return end();    //if not found, return an iterator to null node
 }
 
-
+/**
+ * Insert a key, value pair
+ */
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
 
@@ -371,6 +377,10 @@ void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
     child = (std::unique_ptr<node_type>) new node_type{key, value, previous_node};
 
 }
+
+/**
+ * Utility function to insert a subtree
+ */
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::insert( const node_type& subtree){
 
@@ -381,6 +391,9 @@ void BST<K,V,Comp>::insert( const node_type& subtree){
 	insert(*subtree.right_child); //copy right subtree
 }
 
+/**
+ * Utility function to insert the median
+ */
 template <class K, class V, class Comp>
 void BST<K,V,Comp>::insert_median(std::vector<pair_type>& vect, const size_t lo, const size_t hi){
 
@@ -401,6 +414,10 @@ void BST<K,V,Comp>::insert_median(std::vector<pair_type>& vect, const size_t lo,
     insert_median (vect, lo, mid - 1);
     insert_median (vect,mid + 1, hi);
 }
+
+/**
+ * Balance function
+ */
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::balance(){
 
@@ -412,7 +429,9 @@ void BST<K,V,Comp>::balance(){
     insert_median(pairs, 0, pairs.size() - 1);
 }
 
-
+/**
+ * Overload of operator[], non-const version
+ */
 template<class K, class V, class Comp>
 typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) {
 
@@ -423,9 +442,11 @@ typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& ar
     return (*find(arg_key)).second;
 }
 
-
+/**
+ * Overload of operator[], const version
+ */
 template<class K, class V, class Comp>
-const typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](key_type&& arg_key) const {
+const typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) const {
     iterator iter = find(arg_key);
     if (iter != end()) {
         return (*iter).second;
