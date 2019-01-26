@@ -2,6 +2,11 @@ EXE = exe
 CXX = c++
 CXXFLAGS = -Wall -Wextra -I include
 
+.SUFFIXES:
+SUFFIXES=
+
+.SUFFIXES: .cc .x
+
 all: $(EXE)
 
 dev: include/BST.h
