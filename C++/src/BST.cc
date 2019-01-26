@@ -1,6 +1,7 @@
 #include <BST.h>
 #include <vector>
 #include <iostream>
+#include <stdexcept>
 
 
 template<class K, class V, class Comp>
