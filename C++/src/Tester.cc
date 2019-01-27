@@ -5,7 +5,6 @@
 namespace BST_testing{
 
     void Tester::test(){
-    
 
 	bst_default_ctor();	
 	bst_insert();
