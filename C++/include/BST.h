@@ -6,6 +6,7 @@
 #include <functional>
 #include <utility>
 #include <memory>
+#include <vector>
 
 
 #ifdef __BST_DEV__
@@ -152,6 +153,12 @@ class BST{
         const_iterator cend() const noexcept {return const_iterator{nullptr};}
 
 	/**
+	 * Insert a key-value pair in the BST composed by the given key and value.
+	 * @param key the key in the pair
+	 * @param value the value in the pair
+	 */
+	void insert(const key_type& key, const value_type& value);
+	/**
 	 * Insert a key-value pair in the BST.
 	 * @param pair the key-value pair to insert
 	 */
@@ -159,12 +166,6 @@ class BST{
 
 	    insert(pair.first, pair.second);
 	}
-	/**
-	 * Insert a key-value pair in the BST composed by the given key and value.
-	 * @param key the key in the pair
-	 * @param value the value in the pair
-	 */
-	void insert(const key_type& key, const value_type& value);
 	/**
 	 * Balance the current BST.
 	 */
@@ -215,8 +216,105 @@ namespace BST_testing{
 
 	    void test();
 	    bool bst_default_ctor();
+	    bool bst_insert();
     };
 }
 #endif
+
+
+template<class K, class V, class Comp>
+void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
+
+    if (root == nullptr){ //check if the BST is empty
+    
+	root = (std::unique_ptr<node_type>) new node_type{key, value, nullptr};
+	return;
+    }
+
+    node_type *previous_node{root.get()}; //initialize previous node to root
+    node_type *current_node{root.get()}; //initilize also the current node ptr to root
+    while (current_node) {
+
+	key_type current_key{current_node->data.first};
+        if (!compare(current_key, key) && !compare(key, current_key)) { //if the key is already in the tree update the value
+	    current_node->data.second = value;
+	    break;
+        }
+        else if (compare(key, current_key)) { // if the new key is smaller go to left subtree
+	    previous_node = current_node;
+            current_node = current_node->left_child.get();
+        }
+        else {    //if new key is bigger go to in the right subtree
+	    previous_node = current_node;
+            current_node = current_node->right_child.get();
+        }
+    }
+    auto& child = (compare(previous_node->data.first, key)) ? previous_node->left_child : previous_node->right_child;
+    child = (std::unique_ptr<node_type>) new node_type{key, value, previous_node};
+
+}
+template<class K, class V, class Comp>
+void BST<K,V,Comp>::insert( const node_type& subtree){
+
+    insert(*(subtree.data)); //copy data in target to the new tree
+    if (subtree.left_child)
+	insert(*subtree.left_child); //copy left subtree
+    if (subtree.right_child)
+	insert(*subtree.right_child); //copy right subtree
+}
+/**
+ * Utility function to insert median element in a given tree from a vector of pairs
+ */
+template <class K, class V, class Comp>
+static void insert_median(BST<K,V,Comp>& tree, std::vector<K,V>& vect, const size_t lo, const size_t hi){
+
+    if (hi-lo == 1){
+    
+	tree.insert(vect[lo]);
+	tree.insert(vect[hi]);
+	return;
+    }
+    if (hi == lo){
+    
+	tree.insert(vect[lo]);
+	return;
+    }
+    
+    size_t mid = lo + ((hi - lo) >> 1);
+    tree.insert(vect[mid]);
+    insert_median (tree, vect, lo, mid - 1);
+    insert_median (tree, vect,mid + 1, hi);
+}
+template<class K, class V, class Comp>
+void BST<K,V,Comp>::balance(){
+
+    
+    std::vector<pair_type> pairs;
+    for (const auto& x : *this) 
+	pairs.push_back(x);
+    clear();
+    insert_median(*this, pairs, 0, pairs.size() - 1);
+}
+
+
+template<class K, class V, class Comp>
+typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) {
+
+    iterator iter = find(arg_key);
+    if (iter != end())
+	return (*iter).second;
+    insert(pair_type{arg_key, value_type{}});
+    return (*find(arg_key)).second;
+}
+
+
+template<class K, class V, class Comp>
+const typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](key_type&& arg_key) const {
+    iterator iter = find(arg_key);
+    if (iter != end()) {
+        return (*iter).second;
+    }
+    throw std::out_of_range{"const operator[] trying to access key not present in given BST"};
+}
 
 #endif
