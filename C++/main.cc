@@ -36,7 +36,7 @@ int main(){
 
 	std::cout << "Running with size = " << size << std::endl;
 
-	for (size_t j{1}; j <= size; j++){
+	while (map.size() < size){
 	
 	    size_t num{rand(generator)};
 	    bst.insert(num, std::to_string(num));
