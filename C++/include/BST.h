@@ -21,7 +21,7 @@
 namespace BST_testing {
 
     /**
-     * The Tester class provides a suit of tests to be performed on the
+     * The Tester class provides a suite of tests to be performed on the
      * BST and related classes to test their correctness
      */
     class Tester;
@@ -250,7 +250,7 @@ class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<c
                 }
                 current = p;
                 return *this;
-            ]
+	    }    
         }
 
         bool operator==(const BST_iterator& other) {return current == other.current;} //tests whether two iterators share the same current node

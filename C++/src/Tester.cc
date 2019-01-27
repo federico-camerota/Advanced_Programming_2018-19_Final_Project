@@ -4,8 +4,6 @@
 
 namespace BST_testing{
 
-    Tester::Tester() = default;
-
     void Tester::test(){
 
 	bst_default_ctor();	
