@@ -217,6 +217,8 @@ namespace BST_testing{
 	    void test();
 	    bool bst_default_ctor();
 	    bool bst_insert();
+	    bool bst_copy_ctor();
+	    bool bst_deep_copy();
     };
 }
 #endif
@@ -256,7 +258,7 @@ void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::insert( const node_type& subtree){
 
-    insert(*(subtree.data)); //copy data in target to the new tree
+    insert(subtree.data); //copy data in target to the new tree
     if (subtree.left_child)
 	insert(*subtree.left_child); //copy left subtree
     if (subtree.right_child)
