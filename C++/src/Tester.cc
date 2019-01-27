@@ -12,6 +12,9 @@ namespace BST_testing{
 	    bst_deep_copy();
 	bst_move_ctor();
 	
+	//other tests
+	
+	bst_balance();
     }
 
     bool Tester::bst_default_ctor(){
@@ -188,6 +191,7 @@ namespace BST_testing{
 
     bool Tester::iterators() {
         std::cout << "** Testing BST_iterator and BST_const_iterator classes **" << std::endl;
+	using bst_type = BST<int, std::string>;
         bst_type bst{};
         std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
         std::vector<std::string> values(9);
@@ -241,6 +245,8 @@ namespace BST_testing{
     }
 
     bool Tester::test_find() {
+
+	using bst_type = BST<int, std::string>;
         bst_type bst{};
         std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
         std::vector<std::string> values(9);
@@ -255,5 +261,32 @@ namespace BST_testing{
         }
         std::cerr << "find with balancing " << (result ? "passed" : "failed") << std::endl;
         return result;
+    }
+    bool Tester::bst_balance(){
+    
+	std::cout << "** Testing BST balance **" << std::endl;
+	using bst_type = BST<int, std::string>;
+	bst_type bst{};
+	bst.insert({8, "eight"});
+	bst.insert(10, "ten");
+	bst.insert(3, "three");
+	bst.insert(1,"one");
+	bst.insert(6,"six");
+	bst.insert(4,"four");
+	bst.insert(7,"seven");
+	bst.insert(14,"fourteen");
+	bst.insert(13,"thirteen");
+
+	bst.balance();
+	bst_type::node_type *root{bst.root.get()};
+	bool result{root->data.first == 7};
+	result = result && root->left_child->data.first == 3 && root->right_child->data.first == 10;
+	result = result && root->left_child->left_child->data.first == 1 && root->left_child->right_child->data.first == 4;
+	result = result && root->right_child->left_child->data.first == 8 && root->left_child->right_child->data.first == 13;
+	result = result && root->left_child->right_child->right_child->data.first == 6;
+	result = result && root->right_child->right_child->right_child->data.first == 14;
+	    
+	std::cout << "test " << (result ?  "passed" : "failed") << std::endl;
+	return result;
     }
 }

@@ -69,6 +69,10 @@ class BST{
 	 * @param subtree subtree to copy into the BST
 	 */
 	void insert( const node_type& subtree);
+	/**
+	 * Utility function to insert median element in a given tree from a vector of pairs
+	 */
+	void insert_median(std::vector<pair_type>& , const size_t, const size_t);
 
     public:
 
@@ -219,7 +223,7 @@ namespace {
 template<class K, class V>
 class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<const K,V>>{
 
-        using typename BST<K,V>::pair_type;
+        using pair_type = typename BST<K,V>::pair_type;
         using node_type=BST_node<K,V>;
 
         node_type* current;
@@ -266,12 +270,13 @@ namespace {
 template<class K, class V>
 class BST_const_iterator : public BST_iterator<K,V> {
     using base = ::BST_iterator<K,V>;
-    using typename BST<K,V>::pair_type;
-    using base::BST_iterator;
-    const pair_type& operator*() const {return base::operator*();}
-    using base::operator++;
-    using base::operator==;
-    using base::operator!=;
+    using pair_type = typename BST<K,V>::pair_type;
+    public:
+	using base::BST_iterator;
+	const pair_type& operator*() const {return base::operator*();}
+	using base::operator++;
+	using base::operator==;
+	using base::operator!=;
 };
 }
 
@@ -291,6 +296,9 @@ namespace BST_testing{
 	    bool bst_copy_ctor();
 	    bool bst_deep_copy();
 	    bool bst_move_ctor();
+	    bool bst_balance();
+	    bool iterators();
+	    bool test_find();
     };
 }
 #endif
@@ -371,28 +379,25 @@ void BST<K,V,Comp>::insert( const node_type& subtree){
 	insert(*subtree.right_child); //copy right subtree
 }
 
-/**
- * Utility function to insert median element in a given tree from a vector of pairs
- */
 template <class K, class V, class Comp>
-static void insert_median(BST<K,V,Comp>& tree, std::vector<K,V>& vect, const size_t lo, const size_t hi){
+void BST<K,V,Comp>::insert_median(std::vector<pair_type>& vect, const size_t lo, const size_t hi){
 
     if (hi-lo == 1){
     
-	tree.insert(vect[lo]);
-	tree.insert(vect[hi]);
+	insert(vect[lo]);
+	insert(vect[hi]);
 	return;
     }
     if (hi == lo){
     
-	tree.insert(vect[lo]);
+	insert(vect[lo]);
 	return;
     }
     
     size_t mid = lo + ((hi - lo) >> 1);
-    tree.insert(vect[mid]);
-    insert_median (tree, vect, lo, mid - 1);
-    insert_median (tree, vect,mid + 1, hi);
+    insert(vect[mid]);
+    insert_median (vect, lo, mid - 1);
+    insert_median (vect,mid + 1, hi);
 }
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::balance(){
@@ -402,7 +407,7 @@ void BST<K,V,Comp>::balance(){
     for (const auto& x : *this)
 	pairs.push_back(x);
     clear();
-    insert_median(*this, pairs, 0, pairs.size() - 1);
+    insert_median(pairs, 0, pairs.size() - 1);
 }
 
 
