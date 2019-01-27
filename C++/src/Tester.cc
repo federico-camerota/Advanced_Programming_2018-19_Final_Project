@@ -13,7 +13,9 @@ namespace BST_testing{
 	    bst_deep_copy();
 	bst_move_ctor();
 	
-	//other tests
+	test_move_copy_assignment();
+	test_iterators();
+	test_find();
 	
 	bst_balance();
     }
@@ -235,7 +237,6 @@ namespace BST_testing{
         std::cerr << "overall test " << (result ?  "passed" : "failed") << std::endl;
         return result;
     }
-
     bool Tester::test_iterators() {
         using bst_type = BST<int, std::string>;
         std::cout << "** Testing BST_iterator and BST_const_iterator classes **" << std::endl;
