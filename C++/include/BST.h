@@ -219,6 +219,7 @@ namespace BST_testing{
 	    bool bst_insert();
 	    bool bst_copy_ctor();
 	    bool bst_deep_copy();
+	    bool bst_move_ctor();
     };
 }
 #endif
