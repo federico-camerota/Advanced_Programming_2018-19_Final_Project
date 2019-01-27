@@ -114,7 +114,7 @@ void BST<K,V,Comp>::balance(){
 
 
 template<class K, class V, class Comp>
-typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) noexcept {
+typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) {
 
     iterator iter = find(arg_key);
     if (iter != end())
