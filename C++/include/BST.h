@@ -223,7 +223,7 @@ namespace {
 template<class K, class V>
 class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<const K,V>>{
 
-        using typename BST<K,V>::pair_type;
+        using pair_type = typename BST<K,V>::pair_type;
         using node_type=BST_node<K,V>;
 
         node_type* current;
@@ -270,12 +270,13 @@ namespace {
 template<class K, class V>
 class BST_const_iterator : public BST_iterator<K,V> {
     using base = ::BST_iterator<K,V>;
-    using typename BST<K,V>::pair_type;
-    using base::BST_iterator;
-    const pair_type& operator*() const {return base::operator*();}
-    using base::operator++;
-    using base::operator==;
-    using base::operator!=;
+    using pair_type = typename BST<K,V>::pair_type;
+    public:
+	using base::BST_iterator;
+	const pair_type& operator*() const {return base::operator*();}
+	using base::operator++;
+	using base::operator==;
+	using base::operator!=;
 };
 }
 
