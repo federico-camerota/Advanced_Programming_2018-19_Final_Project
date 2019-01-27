@@ -249,7 +249,7 @@ void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
             current_node = current_node->right_child.get();
         }
     }
-    auto& child = (compare(previous_node->data.first, key)) ? previous_node->left_child : previous_node->right_child;
+    auto& child = (compare(key, previous_node->data.first)) ? previous_node->left_child : previous_node->right_child;
     child = (std::unique_ptr<node_type>) new node_type{key, value, previous_node};
 
 }
