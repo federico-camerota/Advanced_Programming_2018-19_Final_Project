@@ -282,7 +282,7 @@ namespace BST_testing{
 	bool result{root->data.first == 7};
 	result = result && root->left_child->data.first == 3 && root->right_child->data.first == 10;
 	result = result && root->left_child->left_child->data.first == 1 && root->left_child->right_child->data.first == 4;
-	result = result && root->right_child->left_child->data.first == 8 && root->left_child->right_child->data.first == 13;
+	result = result && root->right_child->left_child->data.first == 8 && root->right_child->right_child->data.first == 13;
 	result = result && root->left_child->right_child->right_child->data.first == 6;
 	result = result && root->right_child->right_child->right_child->data.first == 14;
 	    
