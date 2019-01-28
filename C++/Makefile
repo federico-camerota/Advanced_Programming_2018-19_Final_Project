@@ -1,4 +1,5 @@
-EXE = exe
+EXE = bst_benchmark
+DEV_EXE = bst_test
 CXX = c++
 CXXFLAGS = -Wall -Wextra -I include
 
@@ -9,10 +10,12 @@ SUFFIXES=
 
 all: $(EXE)
 
-dev: include/BST.h
-	$(CXX) -o $(EXE) -D__BST_DEV__ src/* main.cc $(CXXFLAGS)
+dev: $(DEV_EXE)
 
-$(EXE): include/BST.h
+$(DEV_EXE): include/BST.h main.cc
+	    $(CXX) -o $(EXE) -D__BST_DEV__ src/* main.cc $(CXXFLAGS)
+
+$(EXE): include/BST.h main.cc
 	$(CXX) -o $@ main.cc $(CXXFLAGS)
 
 main.cc: include/BST.h
