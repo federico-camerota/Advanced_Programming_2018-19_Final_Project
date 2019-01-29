@@ -13,7 +13,7 @@ all: $(EXE)
 dev: $(DEV_EXE)
 
 $(DEV_EXE): include/BST.h main.cc
-	    $(CXX) -o $(EXE) -D__BST_DEV__ src/* main.cc $(CXXFLAGS)
+	    $(CXX) -o $(DEV_EXE) -D__BST_DEV__ src/* main.cc $(CXXFLAGS)
 
 $(EXE): include/BST.h main.cc
 	$(CXX) -o $@ main.cc $(CXXFLAGS)
@@ -21,6 +21,6 @@ $(EXE): include/BST.h main.cc
 main.cc: include/BST.h
 
 clean:
-	rm -rf *~ $(EXE)
+	rm -rf *~ $(EXE) $(DEV_EXE)
 
 .PHONY: all dev clean
