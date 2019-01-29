@@ -3,11 +3,6 @@ DEV_EXE = bst_test
 CXX = c++
 CXXFLAGS = -Wall -Wextra -I include
 
-.SUFFIXES:
-SUFFIXES=
-
-.SUFFIXES: .cc .x
-
 all: $(EXE)
 
 dev: $(DEV_EXE)
