@@ -31,10 +31,19 @@ namespace BST_testing {
 
 namespace {
 
+    /**
+     * BST_Node struct, represents a node in a BST.
+     */
     template <class K, class V>
     struct BST_node;
+    /**
+     * BST_iterator class, made compliant with the STL. Allows in-order traversal of BSTs.
+     */
     template <class K, class V>
     class BST_iterator;
+    /**
+     *BST_const_iterator class. Allows iteration through const BSTs.
+     */
     template <class K, class V>
     class BST_const_iterator;
 }
@@ -47,7 +56,7 @@ class BST{
 	using key_type = K;
 	//!Alias for the type of values associated to keys in the tree
 	using value_type = V;
-	//!Alias for the key-value pair. The key is declared as const to prevent it from being changed once in the tree.
+	//!Alias for the key-value pairs stored in the BST. The key is declared as const to prevent it from being changed once in the tree.
 	using pair_type = std::pair< const K, V>;
 
 	#ifdef __BST_DEV__
@@ -56,11 +65,13 @@ class BST{
 
     private:
 
-	//!private alias for node type
-	using node_type = BST_node<K,V>;
+	//!Alias for the node type
+	using node_type = BST_node<K,V>;//This alias is left private since nodes are not intendend for user usage.
 
+	//!Pointer to the root node of the BST
 	std::unique_ptr<node_type> root;
-	Comp compare{};
+	//!Function object defining the comparison criteria for key_type objects.
+	Comp compare;
 
 	/**
 	 * Utility function to insert in the BST a full subtree. Elements of the subtree are
@@ -70,20 +81,26 @@ class BST{
 	 */
 	void insert( const node_type& subtree);
 	/**
-	 * Utility function to insert median element in a given tree from a vector of pairs
+	 * Utility function to insert in the tree the median element, with respect to 
+	 * given boundaries, from a vector of pair_type.
+	 * @param vect vector of pair_type elements to be inserted in the BST
+	 * @param lo min index to consider in the given vector
+	 * @param hi max index to consider in the given vector
 	 */
-	void insert_median(std::vector<pair_type>& , const size_t, const size_t);
+	void insert_median(std::vector<pair_type>& vect , const size_t lo, const size_t hi);
 
     public:
 
 	/** 
-	 * Create an empty BST
+	 * Create an empty BST. The root pointer is set to nullptr and the compare function is
+	 * default initialized. 
 	 */
 	BST () = default;
 
 	/**
-	 * Copy constructor, create a new BST having the same key-value pairs as other
-	 * @param other BST to copy from
+	 * Copy constructor, create a new BST having the same key-value pairs as other. This 
+	 * constructor also preserves the structure of the copied BST.
+	 * @param other BST to be copied
 	 */
 	BST (const BST<K,V,Comp> &other)
 	{
@@ -122,7 +139,6 @@ class BST{
 
 	
 	//!Alias for iterators
-
 	using iterator = BST_iterator<K,V>;
 	//!Alias for const iterators
 	using const_iterator = BST_const_iterator<K,V>;
@@ -193,7 +209,7 @@ class BST{
 
 };
 
-/**
+/*
  * Node struct
  */
 namespace{
@@ -217,7 +233,7 @@ namespace{
     };
 }
 
-/**
+/*
  * Iterator class, made compliant with the STL. In particular, the iterator allows to traverse the tree
  * in-order, that is from the smallest to the greatest key.
  */
@@ -266,10 +282,10 @@ class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<c
 };
 }
 
-/**
-const_iterator class. Populated with the functions of the iterator class, with the
-exception of the dereferencing operator that is const, as appropriate
-*/
+/*
+ *const_iterator class. Populated with the functions of the iterator class, with the
+ *exception of the dereferencing operator that is const, as appropriate
+ */
 namespace {
 template<class K, class V>
 class BST_const_iterator : public BST_iterator<K,V> {
@@ -294,22 +310,33 @@ namespace BST_testing{
 
 	    Tester() = default;
 
+	    //!Perform all available tests on BSTs.
 	    void test();
+	    //!Test the default constructor of BST.
 	    bool bst_default_ctor();
+	    //!Test the insertion of elements in a BST.
 	    bool bst_insert();
+	    //!Test the copy constructor of BST.
 	    bool bst_copy_ctor();
+	    //!Test that the copy constructor of BST performs deep copies.
 	    bool bst_deep_copy();
+	    //!Test the move constructor of BST.
 	    bool bst_move_ctor();
+	    //!Test copy and move assignments of BST.
             bool test_move_copy_assignment();
+	    //!Test the balance function of BST.
 	    bool bst_balance();
+	    //!Test BST iterators.
 	    bool test_iterators();
+	    //!Test the find function of BST.
 	    bool test_find();
+	    //!Test the clear function of BST.
             bool test_clear();
     };
 }
 #endif
 
-/**
+/*
  * get_min function
  */
 template<class K, class V, class Comp>
@@ -322,7 +349,7 @@ typename BST<K,V,Comp>::node_type* BST<K,V,Comp>::get_min() const noexcept {
     return current;
 }
 
-/**
+/*
  * find function
  */
 template<class K, class V, class Comp>
@@ -343,8 +370,8 @@ typename BST<K,V,Comp>::iterator BST<K,V,Comp>::find(const key_type key) const n
     return end();    //if not found, return an iterator to null node
 }
 
-/**
- * Insert a key, value pair
+/*
+ * insert function (key_type, value_type version)
  */
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
@@ -378,8 +405,8 @@ void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
 
 }
 
-/**
- * Utility function to insert a subtree
+/*
+ * insert function (node_type version)
  */
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::insert( const node_type& subtree){
@@ -391,8 +418,8 @@ void BST<K,V,Comp>::insert( const node_type& subtree){
 	insert(*subtree.right_child); //copy right subtree
 }
 
-/**
- * Utility function to insert the median
+/*
+ * insert_median function
  */
 template <class K, class V, class Comp>
 void BST<K,V,Comp>::insert_median(std::vector<pair_type>& vect, const size_t lo, const size_t hi){
@@ -415,7 +442,7 @@ void BST<K,V,Comp>::insert_median(std::vector<pair_type>& vect, const size_t lo,
     insert_median (vect,mid + 1, hi);
 }
 
-/**
+/*
  * Balance function
  */
 template<class K, class V, class Comp>
@@ -430,7 +457,7 @@ void BST<K,V,Comp>::balance(){
 }
 
 /**
- * Overload of operator[], non-const version
+ * Overload of operator[] for BSTs, non-const version
  */
 template<class K, class V, class Comp>
 typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) {
@@ -443,7 +470,7 @@ typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& ar
 }
 
 /**
- * Overload of operator[], const version
+ * Overload of operator[] for BSTs, const version
  */
 template<class K, class V, class Comp>
 const typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_type& arg_key) const {
@@ -455,7 +482,7 @@ const typename BST<K,V,Comp>::value_type& BST<K,V,Comp>::operator[](const key_ty
 }
 
 /**
- * Overload of the operator<<, allows to print
+ * Overload of the operator<< for BSTs, allows to print
  * the key: value pairs of the tree in-order.
  */
 template<class K, class V, class Comp>
