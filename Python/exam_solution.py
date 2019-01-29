@@ -49,10 +49,8 @@ class PostcardList:
         '''
         Parse self._postcards, set self.{_date,_from,_to}
         '''
-        line_num = 0
-        for postcard in self._postcards:
+        for postcard, line_num in zip(self._postcards, range(len(self._postcards))):
 
-            #line_num += 1
             #extract fields
             fields = postcard.split(';')
             date = fields[0][fields[0].find(':') + 1 :]
@@ -73,7 +71,6 @@ class PostcardList:
                 self._to[to] = [line_num]
             else:
                 self._to[to].append(line_num)
-            line_num += 1
 
     def updateFile(self):
         '''
