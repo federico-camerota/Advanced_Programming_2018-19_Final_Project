@@ -98,11 +98,6 @@ class BST{
 	 */
 	BST () = default;
         /**
-         * Create a BST specifying a compare function to be used
-         * @param c compare function, same type as template Comp
-         */
-        BST(Comp c) : root{}, compare{c} {}
-        /**
          * Create a BST from std::initializer_list, the compare function is default initialized, nodes
          * are added by repeatedly calling insert
          * @param args an std::initializer_list of std::pair<K,V>
