@@ -96,7 +96,13 @@ class BST{
 	 * default initialized. 
 	 */
 	BST () = default;
-
+        /**
+         * Create a BST from std::initializer_list of std::pair, the compare function is default initialized and
+         * repeatedlt call insert
+         */
+        BST(std::initializer_list<std::pair<K,V>> args) : root{}, compare{} {
+            for (const auto& x : args) (*this).insert(x);
+        }
 	/**
 	 * Copy constructor, create a new BST having the same key-value pairs as other. This 
 	 * constructor also preserves the structure of the copied BST.
