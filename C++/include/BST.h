@@ -101,7 +101,7 @@ class BST{
          * repeatedlt call insert
          */
         BST(std::initializer_list<std::pair<K,V>> args) : root{}, compare{} {
-            for (const auto& x : args) (*this).insert(x);
+            for (const auto& x : args) insert(x);
         }
 	/**
 	 * Copy constructor, create a new BST having the same key-value pairs as other. This 
