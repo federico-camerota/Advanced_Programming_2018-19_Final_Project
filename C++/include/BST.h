@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <iterator>
+#include <initializer_list>
 
 
 #ifdef __BST_DEV__
@@ -57,7 +58,7 @@ class BST{
 	//!Alias for the type of values associated to keys in the tree
 	using value_type = V;
 	//!Alias for the key-value pairs stored in the BST. The key is declared as const to prevent it from being changed once in the tree.
-	using pair_type = std::pair< const K, V>;
+	using pair_type = std::pair<const K, V>;
 
 	#ifdef __BST_DEV__
 	friend BST_testing::Tester;
@@ -77,11 +78,11 @@ class BST{
 	 * Utility function to insert in the BST a full subtree. Elements of the subtree are
 	 * inserted in the BST starting at the root and then recursively inserting the
 	 * left and right subtrees.
-	 * @param subtree subtree to copy into the BST
+	 * @param subtree to copy into the BST
 	 */
 	void insert( const node_type& subtree);
 	/**
-	 * Utility function to insert in the tree the median element, with respect to 
+	 * Utility function to insert in the tree the median element, with respect to
 	 * given boundaries, from a vector of pair_type.
 	 * @param vect vector of pair_type elements to be inserted in the BST
 	 * @param lo min index to consider in the given vector
@@ -91,21 +92,26 @@ class BST{
 
     public:
 
-	/** 
+	/**
 	 * Create an empty BST. The root pointer is set to nullptr and the compare function is
-	 * default initialized. 
+	 * default initialized.
 	 */
 	BST () = default;
         /**
-         * Create a BST from std::initializer_list, the compare function is default initialized and
-         * repeatedly call insert
+         * Create a BST specifying a compare function to be used
+         * @param c compare function, same type as template Comp
+         */
+        BST(Comp c) : root{}, compare{c} {}
+        /**
+         * Create a BST from std::initializer_list, the compare function is default initialized, nodes
+         * are added by repeatedly calling insert
          * @param args an std::initializer_list of std::pair<K,V>
          */
-        BST(std::initializer_list<std::pair<K,V>> args) : root{}, compare{} {
+        BST(const std::initializer_list<std::pair<K,V>> args) : root{}, compare{} {
             for (const auto& x : args) insert(x);
         }
 	/**
-	 * Copy constructor, create a new BST having the same key-value pairs as other. This 
+	 * Copy constructor, create a new BST having the same key-value pairs as other. This
 	 * constructor also preserves the structure of the copied BST.
 	 * @param other BST to be copied
 	 */
@@ -144,45 +150,38 @@ class BST{
 	 */
 	~BST() noexcept = default;
 
-	
 	//!Alias for iterators
 	using iterator = BST_iterator<K,V>;
 	//!Alias for const iterators
 	using const_iterator = BST_const_iterator<K,V>;
-
         /**
          * Return a pointer to the node having the smallest key.
          */
         node_type* get_min() const noexcept;
-
         /**
-         * Returns an iterator to the node corresponding having a key equal to the input key, end()
+         * Returns an iterator to the node having a key equal to the input key, end()
          * if it is not found. Moves down the tree exploiting the ordering of the keys.
          * @param key the sought-after key
          */
         iterator find(const key_type key) const noexcept;
-
         /**
          * non-const begin and end functions. Allow the BST to support range for-loops.
          * begin returns an iterator to the node having the smallest key, end returns an iterator
-         * to the null node.
+         * to nullptr.
          */
         iterator begin() noexcept {return iterator{get_min()};}
         iterator end() noexcept {return iterator{nullptr};}
-
         /**
-         * const begin and end functions. They both return a const_iterator, according to the above rules
+         * const begin and end functions. They both return a const_iterator, following the above rules
          */
         const_iterator begin() const noexcept {return const_iterator{get_min()};}
         const_iterator end() const noexcept {return const_iterator{nullptr};}
-
         /**
          * cbegin and cend behave like const begin and const end, but can be useful to force an algorithm
          * of the STL to not modify input iterators.
          */
         const_iterator cbegin() const noexcept {return const_iterator{get_min()};}
         const_iterator cend() const noexcept {return const_iterator{nullptr};}
-
 	/**
 	 * Insert a key-value pair in the BST composed by the given key and value.
 	 * @param key the key in the pair
@@ -204,7 +203,7 @@ class BST{
 	/**
 	 * Remove all key-value pairs from the BST.
 	 */
-	void clear() {
+	void clear() noexcept {
 
 	    root.reset(nullptr);
 	}
@@ -232,11 +231,11 @@ namespace{
 	    node_type* parent;
 	    pair_type data;
 
-	    BST_node() = delete;
-	    BST_node(const key_type key, value_type value, node_type* father)
+	    BST_node() = delete;    //delete default constructor
+	    BST_node(const key_type key, const value_type value, node_type* father)
 	     : left_child{nullptr}, right_child{nullptr}, parent{father}, data{key, value}
 	    {}
-	    ~BST_node() = default;
+	    ~BST_node() noexcept = default;
     };
 }
 
@@ -296,10 +295,11 @@ class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<c
 namespace {
 template<class K, class V>
 class BST_const_iterator : public BST_iterator<K,V> {
+    using node_type=BST_node<K,V>;
     using base = ::BST_iterator<K,V>;
     using pair_type = typename BST<K,V>::pair_type;
-    public:
-	using base::BST_iterator;
+     public:
+        using base::BST_iterator;
 	const pair_type& operator*() const {return base::operator*();}
 	using base::operator++;
 	using base::operator==;
@@ -349,7 +349,7 @@ namespace BST_testing{
 template<class K, class V, class Comp>
 typename BST<K,V,Comp>::node_type* BST<K,V,Comp>::get_min() const noexcept {
     if (root == nullptr) return nullptr; //if the tree is empty, return nullptr
-    node_type* current = root.get();
+    node_type* current{root.get()};
     while (current->left_child.get()) {   //do down to the left as much as possible
         current = current->left_child.get();
     }
@@ -361,7 +361,7 @@ typename BST<K,V,Comp>::node_type* BST<K,V,Comp>::get_min() const noexcept {
  */
 template<class K, class V, class Comp>
 typename BST<K,V,Comp>::iterator BST<K,V,Comp>::find(const key_type key) const noexcept {
-    node_type* current = root.get();
+    node_type* current{root.get()};
     while (current) {
         key_type curr_key = current->data.first;
         if (!compare(curr_key, key) && !compare(key, curr_key)) {   //if current node has sought-after key, return an iterator to it
@@ -384,8 +384,7 @@ template<class K, class V, class Comp>
 void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
 
     if (root == nullptr){ //check if the BST is empty
-    
-	root = (std::unique_ptr<node_type>) new node_type{key, value, nullptr};
+	root.reset(new node_type{key, value, nullptr});
 	return;
     }
 
@@ -408,8 +407,7 @@ void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
         }
     }
     auto& child = (compare(key, previous_node->data.first)) ? previous_node->left_child : previous_node->right_child;
-    child = (std::unique_ptr<node_type>) new node_type{key, value, previous_node};
-
+    child.reset(new node_type{key, value, previous_node});
 }
 
 /*
@@ -454,7 +452,6 @@ void BST<K,V,Comp>::insert_median(std::vector<pair_type>& vect, const size_t lo,
  */
 template<class K, class V, class Comp>
 void BST<K,V,Comp>::balance(){
-
 
     std::vector<pair_type> pairs;
     for (const auto& x : *this)
