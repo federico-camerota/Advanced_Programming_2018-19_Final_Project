@@ -97,8 +97,9 @@ class BST{
 	 */
 	BST () = default;
         /**
-         * Create a BST from std::initializer_list of std::pair, the compare function is default initialized and
-         * repeatedlt call insert
+         * Create a BST from std::initializer_list, the compare function is default initialized and
+         * repeatedly call insert
+         * @param args an std::initializer_list of std::pair<K,V>
          */
         BST(std::initializer_list<std::pair<K,V>> args) : root{}, compare{} {
             for (const auto& x : args) insert(x);
