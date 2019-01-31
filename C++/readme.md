@@ -77,3 +77,6 @@ To perform different tests on BSTs and related objects we declared a `Tester` cl
 `__BST_DEV__` macro defined. If that macro is defined, the above class is declared as `friend` in BST to grant it access to private members and ease testing. Furthermore, being declared in the same header
 file, the `Tester` class has access to the other utility classes used by BST.
 The public function `test` allows to automatically call all the test in succession. Tests are performed on empty BSTs, copy and move semantics (checking also that a deep copy has effectively been performed), the iterator, as well as the insert, balance, find and clear functions.
+
+## 7. Documentation
+The source code has been well documented throughout the project. Under the folder /doc/ it is possible to find a Doxyfile ready to be executed with `doxygen Doxyfile`.
