@@ -267,7 +267,7 @@ class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<c
 
         using pair_type = typename BST<K,V>::pair_type;
         using node_type=BST_node<K,V>;
-
+        //! a pointer to the node the iterator is currently over
         node_type* current;
 
     public:
