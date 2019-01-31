@@ -58,7 +58,7 @@ The BST class implements copy and move semantics through the following functions
 Since move semantics does not allocate any new memory (it has already been successfully allocated and we are simply moving it) we can mark operators implementing such semantics as `noexcept`. Of course, in this case, `const` does not apply to the input tree since move semantics leaves the object in an undefined state (but still in such a state that a destructor can be called successfully).
 
 ## 6. Testing tools
-To perform all kind of tests on BSTs and related objects we declared a `Tester` class. This class is declared in a specific namespace and included in the header file only if compiled with the 
+To perform different tests on BSTs and related objects we declared a `Tester` class. This class is declared in a specific namespace and included in the header file only if compiled with the 
 `__BST_DEV__` macro defined. If that macro is defined, the above class is declared as `friend` in BST to grant it access to private members and ease testing. Furthermore, being declared in the same header
 file, the `Tester` class has access to the other utility classes used by BST.
 The public function `test` allows to automatically call all the test in succession. Tests are performed on empty BSTs, copy and move semantics (checking that a deep copy has effectively been performed), the iterator, as well as the insert, balance, find and clear functions.
