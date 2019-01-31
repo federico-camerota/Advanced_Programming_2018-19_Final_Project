@@ -19,7 +19,7 @@ an executable named `bst_benchmark` will be created.
 ## 1. Overview
 The code comprises a header file, BST.h (under /include/) where a full templated binary search tree class has been defined and implemented. Under the src/ folder you can find a `Tester` class, declared in its own namespace, which is in charge of performing all the tests on instances of the BST class.
 
-The BST class is templated to the type of the key, the value, and the operator used for comparisons, which has been defaulted to std::less. 
+The BST class is templated to the type of the key, the value, and the operator used for comparisons, which has been defaulted to `std::less`. 
 Three other classes have been declared, `BST_node`, `BST_iterator` and `BST_const_iterator`, in an unnamed namespace since, from a conceptual point of view, it does not make sense for them to exist outside and independently of a BST class.
 Furthermore, by doing so, they are not templated to comparison type used in BST.This is an instance of the concept of "data hiding".
 
