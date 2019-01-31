@@ -45,12 +45,14 @@ The BST class has the following member functions:
 * `insert` - that is declared in three different ways to allow the insertion in the BST of a key-value pair or a full subtree. In case the key is already in the tree the associated value it's updated.
 * `balance` - a function that balances the BST. The structure is rebalanced by creating a new tree and recursively inserting into it the median (with respect to the key ordering) key-value pair.
 * `find` - returns an iterator to the node having the sought-after key, otherwise `end()` is returned.
+* `clear` - deletes all the elements in the BST.
 
 
 ## 5. Copy and move semantics
-Copy constructor - 
-Move constructor -
-Copy assignment - this overloads the operator= with an l-value reference (marked as const) to a BST object as argument, clears any memory used, creates a copy with the copy constructor and moves the copy onto this by calling move semantics.
-Move assignemnt - this overloads the operator= with an r-value reference to a BST as argument, whose root is then moved to the root of this.
+The BST class implements copy and move semantics through the following functions:
+* Copy constructor - creates a deep copy of the given BST by recursively coping the structure startign at its root node.
+* Move constructor - that steals the resources of the given BST by swapping the root nodes of the two structures.
+* Copy assignment - this overloads the operator= with an l-value reference (marked as const) to a BST object as argument, clears any memory used, creates a copy with the copy constructor and moves the copy onto this by calling move semantics.
+* Move assignemnt - this overloads the operator= with an r-value reference to a BST as argument, whose root is then moved to the root of this.
 
 Since move semantics does not allocate any new memory, it has already been successfully allocated and we are simply moving it, so we can mark them an noexcept. Of course, in this case, const does not apply to the input tree since the move semantics leave the object in an undefined (but still in such a state that a destructor can be called successfully).
