@@ -161,21 +161,29 @@ class BST{
         iterator find(const key_type key) const noexcept;
         /**
          * non-const begin and end functions. Allow the BST to support range for-loops.
-         * begin returns an iterator to the node having the smallest key, end returns an iterator
-         * to nullptr.
+         * begin returns an iterator to the node having the smallest key
          */
         iterator begin() noexcept {return iterator{get_min()};}
+        /**
+         * end returns an iterator to nullptr
+         */
         iterator end() noexcept {return iterator{nullptr};}
         /**
-         * const begin and end functions. They both return a const_iterator, following the above rules
+         * const begin and end functions. begin returns a const_iterator to the node with smallest key
          */
         const_iterator begin() const noexcept {return const_iterator{get_min()};}
+        /**
+         * returns a const_iterator to nullptr
+         */
         const_iterator end() const noexcept {return const_iterator{nullptr};}
         /**
          * cbegin and cend behave like const begin and const end, but can be useful to force an algorithm
-         * of the STL to not modify input iterators.
+         * of the STL to not modify input iterators. cbegin returns a const_iterator to the node with the smallest key
          */
         const_iterator cbegin() const noexcept {return const_iterator{get_min()};}
+        /**
+         * cend returns a const_iterator to nullptr
+         */
         const_iterator cend() const noexcept {return const_iterator{nullptr};}
 	/**
 	 * Insert a key-value pair in the BST composed by the given key and value.
