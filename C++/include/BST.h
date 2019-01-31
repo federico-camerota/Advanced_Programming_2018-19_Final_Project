@@ -315,33 +315,35 @@ class BST_const_iterator : public BST_iterator<K,V> {
 namespace BST_testing{
 
     class Tester{
-    
+
+        std::vector<std::pair<int,std::string>> init_test() const noexcept;
+        using bst_type = BST<int, std::string>;
 	public:
 
 	    Tester() = default;
 
 	    //!Perform all available tests on BSTs.
-	    void test();
+	    void test() const;
 	    //!Test the default constructor of BST.
-	    bool bst_default_ctor();
+	    bool bst_default_ctor() const noexcept;
 	    //!Test the insertion of elements in a BST.
-	    bool bst_insert();
+	    bool bst_insert() const;
 	    //!Test the copy constructor of BST.
-	    bool bst_copy_ctor();
+	    bool bst_copy_ctor() const;
 	    //!Test that the copy constructor of BST performs deep copies.
-	    bool bst_deep_copy();
+	    bool bst_deep_copy() const;
 	    //!Test the move constructor of BST.
-	    bool bst_move_ctor();
+	    bool bst_move_ctor() const;
 	    //!Test copy and move assignments of BST.
-            bool test_move_copy_assignment();
+            bool test_move_copy_assignment() const;
 	    //!Test the balance function of BST.
-	    bool bst_balance();
+	    bool bst_balance() const;
 	    //!Test BST iterators.
-	    bool test_iterators();
+	    bool test_iterator() const;
 	    //!Test the find function of BST.
-	    bool test_find();
+	    bool test_find() const;
 	    //!Test the clear function of BST.
-            bool test_clear();
+            bool test_clear() const;
     };
 }
 #endif
