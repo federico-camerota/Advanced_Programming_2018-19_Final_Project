@@ -34,10 +34,10 @@ As a final note, the key to each `pair_type` (which is meant to store node data)
 
 
 ## 2. Iterator class
-The class has one private member, that points to a node. In order to implement the Iterator Pattern, it provides the overload of the `operator*` (which returns an `std::pair<key_type, value_type>`), the overload of the pre-increment `operator++` (which basically looks for the successor of the current node), and the overload of the `operator!=`. In addition, the class has been made compliant with the STL by inheriting from `std::iterator` defined in the `<iterator>` header, so that an algorithm of the STL might be invoked on it.
+The class has one private member, that points to a node. In order to implement the Iterator Pattern, it provides the overload of the `operator*` (which returns an `std::pair<const key_type, value_type>`), the overload of the pre-increment `operator++` (which basically looks for the successor of the current node), and the overload of the `operator!=`. In addition, the class has been made compliant with the STL by inheriting from `std::iterator` defined in the `<iterator>` header.
 
 ## 3. Const_iterator class
-The class inherits from `BST_iterator` and is populated with the constructor and all the operators of the parent, with the exception of the overload of the `operator*` whose return type has been marked as `const`, as appropriate. In fact, a separate `const_iterator` class is needed, because the aforementioned overload would not be possible in the iterator class alone, since the original `operator*` was marked as `const` at the end of the function, and function overloading would not have worked on the two versions.
+The class inherits from `BST_iterator` and is populated with the constructor and all the operators of the parent, with the exception of the overload of the `operator*` which returns a `const` reference, as appropriate. In fact, a separate `const_iterator` class is needed, because the aforementioned overload would not be possible in the iterator class alone, since the original `operator*` was marked as `const` at the end of the function, and function overloading would not have worked on the two versions. As a result, we can now work with const instances of the class.
 
 ## 4. Member functions
 The BST class has the following member functions:
