@@ -16,8 +16,8 @@ make
 ```
 an executable named `bst_benchmark` will be created. The above benchmark consists in performing 50 searches using the `find` function in a randomly built BST and has been performed using trees of size 
 3^k, for k = 1, ..., 15. First the test is done using the tree as it is built and then balancing it. The obtained results are plotted in the following images
-<img src="images/unbalanced_times.png" alt="drawing" width="800" height="400"/>
-<img src="images/balanced_times.png" alt="drawing" width="800" height="400"/>
+<img src="images/unbalanced_times.png" alt="drawing" width="800" height="600"/>
+<img src="images/balanced_times.png" alt="drawing" width="800" height="600"/>
 
 In the images, the red cuve represents the times obtained using our data structure while the blue one the times of `std::map`.
 From this results we can see that, when the BST is balanced using our algorithm the performance is quite similar to the one obtained using the standard library `std::map` data structure.
