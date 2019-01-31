@@ -89,6 +89,10 @@ class BST{
 	 * @param hi max index to consider in the given vector
 	 */
 	void insert_median(std::vector<pair_type>& vect , const size_t lo, const size_t hi);
+        /**
+         * Return a pointer to the node having the smallest key.
+         */
+        node_type* get_min() const noexcept;
 
     public:
 
@@ -149,10 +153,6 @@ class BST{
 	using iterator = BST_iterator<K,V>;
 	//!Alias for const iterators
 	using const_iterator = BST_const_iterator<K,V>;
-        /**
-         * Return a pointer to the node having the smallest key.
-         */
-        node_type* get_min() const noexcept;
         /**
          * Returns an iterator to the node having a key equal to the input key, end()
          * if it is not found. Moves down the tree exploiting the ordering of the keys.
