@@ -14,7 +14,11 @@ or just:
 ```bash
 make
 ```
-an executable named `bst_benchmark` will be created.
+an executable named `bst_benchmark` will be created. The above benchmark consists in performing 50 searches using the `find` function in a randomly built BST and has been performed using trees of size 
+3^k, for k = 1, ..., 15. First the test is done using the tree as it is built and then balancing it. The obtained results are plotted in the following images
+![Unbalanced times](https://github.com/pigozzif/Advanced_Programming_2018-19_Final_Project/tree/master/C%2B%2B/images/unbalanced_times.png)
+![Balanced times](https://github.com/pigozzif/Advanced_Programming_2018-19_Final_Project/tree/master/C%2B%2B/images/balanced_times.png)
+From this results we can see that, when the BST is balanced using our algorithm the performance is quite similar to the one obtained using the standard library `std::map` data structure.
 
 ## 1. Overview
 The code comprises a header file, BST.h (under /include/) where a full templated binary search tree class has been defined and implemented. Under the /src/ folder you can find a Tester.cc class, defined in its own namespace, which is in charge of performing all the tests on instances of the BST class.
