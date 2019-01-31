@@ -34,9 +34,11 @@ not only beacause the data structure is bigger but also because it is also farth
 ## 1. Overview
 The code comprises a header file, BST.h (under /include/) where a full templated binary search tree class has been defined and implemented. Under the /src/ folder you can find a Tester.cc class, defined in its own namespace, which is in charge of performing all the tests on instances of the BST class.
 
-The BST class is templated to the type of the key, the value, and the operator used for comparisons, which has been defaulted to `std::less`. 
+The BST class is templated to the type of the key, the value, and the operator used for comparisons, which has been defaulted to `std::less`. The class has two private members, an `std::unique_ptr` pointing to the root node, and a function object of type given by the third template.
 Three other classes have been declared, `BST_node`, `BST_iterator` and `BST_const_iterator`, in an unnamed namespace since, from a conceptual point of view, it does not make sense for them to exist outside and independently of a BST class. Additionally, we want the internal workings of our class to be kept hidden to the user. This is an instance of the concept of "data hiding".
 Furthermore, by doing so, they are not templated to comparison type used in BST. If they had been defined as private to the class, a copy of them would be generated for each different comparison that happens to be used, uselessly enlarging the binary.
+
+The BST_node class has two `std::unique_ptr` (one for left and one for right child), a pointer to the parent (which is nullptr for the root), and an `std::pair<const key_type, value_type>` to store the data.
 
 The BST class also provides the following aliases:
 1. `key_type` that is an alias for the type of keys.
