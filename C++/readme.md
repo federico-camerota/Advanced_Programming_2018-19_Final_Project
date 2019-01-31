@@ -23,7 +23,14 @@ The BST class is templated to the type of the key, the value, and the operator u
 Three other classes have been declared, `BST_node`, `BST_iterator` and `BST_const_iterator`, in an unnamed namespace since, from a conceptual point of view, it does not make sense for them to exist outside and independently of a BST class.
 Furthermore, by doing so, they are not templated to comparison type used in BST.This is an instance of the concept of "data hiding".
 
-As a final note, the key to each `std::pair<key_type,value_type>` (which is meant to store node data) has been marked as const, mimicking the same behavior of `std::map`. In fact, allowing the user to change one of the keys would damage the balancement property of a BST.
+The BST class also provides the following aliases:
+...1. `key_type` that is an alias for the type of keys.
+...2. `value_type` that is an alias for the type of values associated to keys.
+...3. `pair_type` that is an alias for `std::pair<const key_type, value_type>`.
+...4. `iterator` that is an alias for the `BST_iterator` class templated on the same key-value parameters as the BST.
+...5. `const_iterator` that is an alias for the `BST_const_iterator` class.
+
+As a final note, the key to each `pair_type` (which is meant to store node data) has been marked as const, mimicking the same behavior of `std::map`. In fact, allowing the user to change one of the keys would damage the balancement property of a BST.
 
 ## 2. Iterator class
 The class has one private member, that points to a node. In order to implement the Iterator Pattern, it provides the overload of the `operator*` (which returns an `std::pair<key_type, value_type>`), the overload of the pre-increment `operator++` (which basically looks for the successor of the current node), and the overload of the `operator!=`. In addition, the class has been made compliant with the STL by inheriting from `std::iterator` defined in the `<iterator>` header, so that an algorithm of the STL might be invoked on it.
