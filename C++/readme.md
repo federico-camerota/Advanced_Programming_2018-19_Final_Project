@@ -21,7 +21,7 @@ The code comprises a header file, BST.h (under /include/) where a full templated
 
 The BST class is templated to the type of the key, the value, and the operator used for comparisons, which has been defaulted to `std::less`. 
 Three other classes have been declared, `BST_node`, `BST_iterator` and `BST_const_iterator`, in an unnamed namespace since, from a conceptual point of view, it does not make sense for them to exist outside and independently of a BST class. Additionally, we want the internal workings of our class to be kept hidden to the user. This is an instance of the concept of "data hiding".
-Furthermore, by doing so, they are not templated to comparison type used in BST. If they had been defined as private to the class, a copy of them would be generated for each different comparison template that happens to be used, uselessly enlarging the binary.
+Furthermore, by doing so, they are not templated to comparison type used in BST. If they had been defined as private to the class, a copy of them would be generated for each different comparison that happens to be used, uselessly enlarging the binary.
 
 The BST class also provides the following aliases:
 1. `key_type` that is an alias for the type of keys.
@@ -52,7 +52,7 @@ The BST class has the following member functions:
 The BST class implements copy and move semantics through the following functions:
 * Copy constructor - creates a deep copy of the given BST by recursively coping the structure starting at its root node.
 * Move constructor - that steals the resources of the given rvalue referenced BST by swapping the root nodes of the two structures.
-* Copy assignment - this overloads the `operator=` with an l-value reference (marked as const) to a BST object as argument, clears any memory used, creates a copy with the copy constructor and moves the copy onto this by calling move semantics.
+* Copy assignment - this overloads the `operator=` with an l-value reference (marked as const) to a BST object as argument. It  clears any memory used, creates a copy with the copy constructor and moves the copy onto this by calling move semantics.
 * Move assignment - this overloads the `operator=` with an r-value reference to a BST as argument, whose root is then moved to the root of this.
 
 Since move semantics does not allocate any new memory (it has already been successfully allocated and we are simply moving it) we can mark operators implementing such semantics as `noexcept`. Of course, in this case, `const` does not apply to the input tree since move semantics leaves the object in an undefined state (but still in such a state that a destructor can be called successfully).
@@ -61,4 +61,4 @@ Since move semantics does not allocate any new memory (it has already been succe
 To perform different tests on BSTs and related objects we declared a `Tester` class. This class is declared in a specific namespace and included in the header file only if compiled with the 
 `__BST_DEV__` macro defined. If that macro is defined, the above class is declared as `friend` in BST to grant it access to private members and ease testing. Furthermore, being declared in the same header
 file, the `Tester` class has access to the other utility classes used by BST.
-The public function `test` allows to automatically call all the test in succession. Tests are performed on empty BSTs, copy and move semantics (checking that a deep copy has effectively been performed), the iterator, as well as the insert, balance, find and clear functions.
+The public function `test` allows to automatically call all the test in succession. Tests are performed on empty BSTs, copy and move semantics (checking also that a deep copy has effectively been performed), the iterator, as well as the insert, balance, find and clear functions.
