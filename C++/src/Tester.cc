@@ -5,7 +5,7 @@
 
 namespace BST_testing{
 
-    std::vector<std::pair<int,std::string>> Tester::init_test() const noexcept {
+    std::vector<std::pair<int,std::string>> Tester::init_test() const {
         std::vector<int> keys{1, 3, 4, 6, 7, 8, 10, 13, 14};
         std::vector<std::pair<int,std::string>> pairs;
         for (auto x : keys) pairs.push_back(std::pair<int,std::string>{x, std::to_string(x)});
