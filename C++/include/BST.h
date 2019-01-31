@@ -316,7 +316,7 @@ namespace BST_testing{
 
     class Tester{
 
-        std::vector<std::pair<int,std::string>> init_test() const noexcept;
+        std::vector<std::pair<int,std::string>> init_test() const;
         using bst_type = BST<int, std::string>;
 	public:
 
