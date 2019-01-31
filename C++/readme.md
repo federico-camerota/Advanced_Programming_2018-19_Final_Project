@@ -24,11 +24,11 @@ Three other classes have been declared, `BST_node`, `BST_iterator` and `BST_cons
 Furthermore, by doing so, they are not templated to comparison type used in BST.This is an instance of the concept of "data hiding".
 
 The BST class also provides the following aliases:
-..1. `key_type` that is an alias for the type of keys.
-..2. `value_type` that is an alias for the type of values associated to keys.
-..3. `pair_type` that is an alias for `std::pair<const key_type, value_type>`.
-..4. `iterator` that is an alias for the `BST_iterator` class templated on the same key-value parameters as the BST.
-..5. `const_iterator` that is an alias for the `BST_const_iterator` class.
+1. `key_type` that is an alias for the type of keys.
+2. `value_type` that is an alias for the type of values associated to keys.
+3. `pair_type` that is an alias for `std::pair<const key_type, value_type>`.
+4. `iterator` that is an alias for the `BST_iterator` class templated on the same key-value parameters as the BST.
+5. `const_iterator` that is an alias for the `BST_const_iterator` class.
 
 As a final note, the key to each `pair_type` (which is meant to store node data) has been marked as const, mimicking the same behavior of `std::map`. In fact, allowing the user to change one of the keys would damage the balancement property of a BST.
 
