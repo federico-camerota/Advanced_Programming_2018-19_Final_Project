@@ -55,4 +55,7 @@ The BST class implements copy and move semantics through the following functions
 * Copy assignment - this overloads the `operator=` with an l-value reference (marked as const) to a BST object as argument, clears any memory used, creates a copy with the copy constructor and moves the copy onto this by calling move semantics.
 * Move assignment - this overloads the `operator=` with an r-value reference to a BST as argument, whose root is then moved to the root of this.
 
-Since move semantics does not allocate any new memory (it has already been successfully allocated and we are simply moving it) we can mark operators implementing such semantics as `noexcept`. Of course, in this case, `const` does not apply to the input tree since move semantics leaves the object in an undefined state (but still in such a state that a destructor can be called successfully).
+Since move semantics do not allocate any new memory (it has already been successfully allocated and we are simply moving it) we can mark operators implementing such semantics as `noexcept`. Of course, in this case, `const` does not apply to the input tree since move semantics leave the object in an undefined state (but still in such a state that a destructor can be called successfully).
+
+## 6. Tester class
+The Tester class implements a series of tests to be performed on the class and its members. The public function `test` allows to automatically call all of them in succession. Tests are performed on empty BSTs, copy and move semantics (checking that a deep copy has effectively been performed), the iterator, as well as the insert, balance, find and clear functions.
