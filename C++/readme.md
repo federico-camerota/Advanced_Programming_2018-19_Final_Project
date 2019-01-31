@@ -40,9 +40,12 @@ The class has one private member, that points to a node. In order to implement t
 The class inherits from `BST_iterator` and is populated with the constructor and all the operators of the parent, with the exception of the overload of the `operator*` whose return type has been marked as `const`, as appropriate. In fact, a separate `const_iterator` class is needed, because the aforementioned overload would not be possible in the iterator class alone, since the original `operator*` was marked as `const` at the end of the function, and function overloading would not have worked on the two versions.
 
 ## 4. Member functions
-begin and end, const and non-const, cbegin and cend - these functions allow to traverse the BST using a range for-loop, following the in-order traversal dictated by the iterator. The const versions of begin and end allow traversal of a const instance of a BST, and return const_iterators, not iterators. cbegin() and cend() might be useful if you want to use a const_iterator for a non-const tree instance, for example if you want to call an algorithm of the STL on the tree by making sure its members will not be modified. Finally, notice the end functions return an iterator to nullptr.
+The BST class has the following member functions:
+* `begin` and `end`, const and non-const, `cbegin` and `cend` - these functions allow to traverse the BST using a range for-loop, following the in-order traversal dictated by the iterator. The const versions of begin and end allow traversal of a const instance of a BST, and return const_iterators, not iterators. cbegin() and cend() might be useful if you want to use a const_iterator for a non-const tree instance, for example if you want to call an algorithm of the STL on the tree by making sure its members will not be modified. Finally, notice the end functions return an iterator to nullptr.
+* `insert` - that is declared in three different ways to allow the insertion in the BST of a key-value pair or a full subtree. In case the key is already in the tree the associated value it's updated.
+* `balance` - a function that balances the BST. The structure is rebalanced by creating a new tree and recursively inserting into it the median (with respect to the key ordering) key-value pair.
+* `find` - returns an iterator to the node having the sought-after key, otherwise `end()` is returned.
 
-find - returns an iterator to the node having the sought-after key, otherwise end() is returned 
 
 ## 5. Copy and move semantics
 Copy constructor - 
