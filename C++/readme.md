@@ -22,6 +22,15 @@ an executable named `bst_benchmark` will be created. The above benchmark consist
 In the images, the red cuve represents the times obtained using our data structure while the blue one the times of `std::map`.
 From this results we can see that, when the BST is balanced using our algorithm the performance is quite similar to the one obtained using the standard library `std::map` data structure.
 
+The balance tree and `std::map` should show a search time that scales as `log(n)`, where `n` is the number of nodes in the tree. Due to the properties of the `log` function the ratio `log(n^k)/log(n)` is 
+    equal to `k`. So, we plotted in the following image this ratio using the obtained results where `n` is set to 3 and k goes from 1 to 15.
+<img src="images/balanced_ratio.png" alt="drawing" width="800" height="600"/>
+
+It can be seen that the two data structures show a similar behavior. However, this is not the trend one would expect from theory. In fact, we should see approximatively a straight line. 
+Even though the experimental observations seem not to support the theory they reflect the memory hierarchy of the machine. That is, when we perform this benchmark using a small number of nodes, probably
+both structures fit in the cache while for bigger values of k the structures don't fit in the cache any more. Due to this fact, the time it takes on avarage to find an element in a bigger tree increases 
+not only beacause the data structure is bigger but also because it is also farther away from the CPU.
+
 ## 1. Overview
 The code comprises a header file, BST.h (under /include/) where a full templated binary search tree class has been defined and implemented. Under the /src/ folder you can find a Tester.cc class, defined in its own namespace, which is in charge of performing all the tests on instances of the BST class.
 
