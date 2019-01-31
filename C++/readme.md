@@ -70,7 +70,7 @@ The BST class has the following member functions:
 The BST class implements copy and move semantics through the following functions:
 * Copy constructor - creates a deep copy of the given BST by recursively coping the structure starting at its root node.
 * Move constructor - that steals the resources of the given rvalue referenced BST by swapping the root nodes of the two structures.
-* Copy assignment - this overloads the `operator=` with an l-value reference (marked as const) to a BST object as argument. It  clears any memory used, creates a copy with the copy constructor and moves the copy onto this by calling move semantics.
+* Copy assignment - this overloads the `operator=` with an l-value reference (marked as const) to a BST object as argument. It  clears any memory used, creates a copy with the copy constructor and moves the copy onto this by calling move semantics. A deep copy is thus achieved.
 * Move assignment - this overloads the `operator=` with an r-value reference to a BST as argument, whose root is then moved to the root of this.
 
 Since move semantics does not allocate any new memory (it has already been successfully allocated and we are simply moving it) we can mark operators implementing such semantics as `noexcept`. Of course, in this case, `const` does not apply to the input tree since move semantics leaves the object in an undefined state (but still in such a state that a destructor can be called successfully).
@@ -82,7 +82,7 @@ file, the `Tester` class has access to the other utility classes used by BST.
 The public function `test` allows to automatically call all the test in succession. Tests are performed on empty BSTs, copy and move semantics (checking also that a deep copy has effectively been performed), the iterator, as well as the insert, balance, find and clear functions.
 
 ## 7. Documentation
-The source code has been well documented throughout the project. Under the folder /doc/ it is possible to find a Doxyfile ready to generate the documentation with
+The source code has been well documented throughout the project. Under the folder `doc/` it is possible to find a Doxyfile ready to generate the documentation with
 ```bash
 doxygen Doxyfile
 ```
