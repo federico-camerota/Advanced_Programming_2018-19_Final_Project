@@ -16,3 +16,8 @@ make
 ```
 an executable named `bst_benchmark` will be created.
 
+To generate the documentation of this project:
+```bash
+cd doc/
+doxygen
+```
