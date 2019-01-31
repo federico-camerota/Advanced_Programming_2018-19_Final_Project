@@ -61,6 +61,7 @@ The BST class has the following member functions:
 * `balance` - a function that balances the BST. The structure is rebalanced by creating a new tree and recursively inserting into it the median (with respect to the key ordering) key-value pair.
 * `find` - returns an iterator to the node having the sought-after key, otherwise `end()` is returned.
 * `clear` - deletes all the elements in the BST.
+* `operator[]` - both `const` and `non-const` versions have been implemented. In the former (which is supposed to be called on const instances of BST), if the key is not present, an std::out_of_range exception is thrown with a meaningful message. In the latter, if the key is not present, insert is called on the lookup key and the value is default-initialized.  
 
 
 ## 5. Copy and move semantics
