@@ -24,11 +24,11 @@ Three other classes have been declared, `BST_node`, `BST_iterator` and `BST_cons
 Furthermore, by doing so, they are not templated to comparison type used in BST. If they had been defined as private to the class, a copy of them would be generated for each different comparison template that happens to be used, uselessly enlarging the binary.
 
 The BST class also provides the following aliases:
-...1. `key_type` that is an alias for the type of keys.
-...2. `value_type` that is an alias for the type of values associated to keys.
-...3. `pair_type` that is an alias for `std::pair<const key_type, value_type>`.
-...4. `iterator` that is an alias for the `BST_iterator` class templated on the same key-value parameters as the BST.
-...5. `const_iterator` that is an alias for the `BST_const_iterator` class.
+1. `key_type` that is an alias for the type of keys.
+2. `value_type` that is an alias for the type of values associated to keys.
+3. `pair_type` that is an alias for `std::pair<const key_type, value_type>`.
+4. `iterator` that is an alias for the `BST_iterator` class templated on the same key-value parameters as the BST.
+5. `const_iterator` that is an alias for the `BST_const_iterator` class.
 
 As a final note, the key to each `pair_type` (which is meant to store node data) has been marked as const, mimicking the same behavior of `std::map`. In fact, allowing the user to change one of the keys would damage the balancement property of a BST.
 
@@ -40,14 +40,19 @@ The class has one private member, that points to a node. In order to implement t
 The class inherits from `BST_iterator` and is populated with the constructor and all the operators of the parent, with the exception of the overload of the `operator*` whose return type has been marked as `const`, as appropriate. In fact, a separate `const_iterator` class is needed, because the aforementioned overload would not be possible in the iterator class alone, since the original `operator*` was marked as `const` at the end of the function, and function overloading would not have worked on the two versions.
 
 ## 4. Member functions
-`begin` and `end`, const and non-const, `cbegin` and `cend` - these functions allow to traverse the BST using a range for-loop, following the in-order traversal dictated by the iterator. The `const` versions of `begin` and `end` allow traversal of a const instance of a BST, and return const_iterators, not iterators. `cbegin` and `cend` might be useful if you want to use a const_iterator for a non-const tree instance, for example if you want to call an algorithm of the STL on the tree by making sure its members will not be modified. Finally, notice the end functions return an iterator to nullptr.
+The BST class has the following member functions:
+* `begin` and `end`, const and non-const, `cbegin` and `cend` - these functions allow to traverse the BST using a range for-loop, following the in-order traversal dictated by the iterator. The const versions of begin and end allow traversal of a const instance of a BST, and return const_iterators, not iterators. `cbegin()` and `cend()` might be useful if you want to use a const_iterator for a non-const tree instance, for example if you want to call an algorithm of the STL on the tree by making sure its members will not be modified. Finally, notice the end functions return an iterator to nullptr.
+* `insert` - that is declared in three different ways to allow the insertion in the BST of a key-value pair or a full subtree. In case the key is already in the tree the associated value it's updated.
+* `balance` - a function that balances the BST. The structure is rebalanced by creating a new tree and recursively inserting into it the median (with respect to the key ordering) key-value pair.
+* `find` - returns an iterator to the node having the sought-after key, otherwise `end()` is returned.
+* `clear` - deletes all the elements in the BST.
 
-`find` - returns an iterator to the node having the sought-after key, otherwise end() is returned 
 
 ## 5. Copy and move semantics
-Copy constructor - 
-Move constructor -
-Copy assignment - this overloads the operator= with an l-value reference (marked as const) to a BST object as argument, clears any memory used, creates a copy with the copy constructor and moves the copy onto this by calling move semantics.
-Move assignemnt - this overloads the operator= with an r-value reference to a BST as argument, whose root is then moved to the root of this.
+The BST class implements copy and move semantics through the following functions:
+* Copy constructor - creates a deep copy of the given BST by recursively coping the structure starting at its root node.
+* Move constructor - that steals the resources of the given rvalue referenced BST by swapping the root nodes of the two structures.
+* Copy assignment - this overloads the `operator=` with an l-value reference (marked as const) to a BST object as argument, clears any memory used, creates a copy with the copy constructor and moves the copy onto this by calling move semantics.
+* Move assignment - this overloads the `operator=` with an r-value reference to a BST as argument, whose root is then moved to the root of this.
 
-Since move semantics does not allocate any new memory, it has already been successfully allocated and we are simply moving it, so we can mark them an noexcept. Of course, in this case, const does not apply to the input tree since the move semantics leave the object in an undefined (but still in such a state that a destructor can be called successfully).
+Since move semantics does not allocate any new memory (it has already been successfully allocated and we are simply moving it) we can mark operators implementing such semantics as `noexcept`. Of course, in this case, `const` does not apply to the input tree since move semantics leaves the object in an undefined state (but still in such a state that a destructor can be called successfully).
