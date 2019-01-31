@@ -230,14 +230,29 @@ namespace{
 	    using value_type=typename BST<K,V>::value_type;
 	    using node_type=BST_node<K,V>;
 
+	    //! Pointers to left and right child of the node
 	    std::unique_ptr<node_type> left_child, right_child;
+	    //! Pointer to the parent of this node
 	    node_type* parent;
+	    //! Key-value pair stored in the node
 	    pair_type data;
 
+	    /**
+	     * Default constructor for BST_node
+	     */
 	    BST_node() = delete;    //delete default constructor
+	    /**
+	     * Create a new node having the given data stored in it and the given parent
+	     * @param key key of the key-value pair to store in the node
+	     * @param value value of the key-value pair to store in the node
+	     * @param father pointer to the parent of the node
+	     */
 	    BST_node(const key_type key, const value_type value, node_type* father)
 	     : left_child{nullptr}, right_child{nullptr}, parent{father}, data{key, value}
 	    {}
+	    /**
+	     * Default destructor for nodes
+	     */
 	    ~BST_node() noexcept = default;
     };
 }
