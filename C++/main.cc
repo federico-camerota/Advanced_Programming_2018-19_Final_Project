@@ -16,9 +16,9 @@ int main(){
 #endif
     using bst_type = BST<size_t, std::string>;
 
-    const size_t N{10};
-    const size_t k{6};
-    const int searches{20};
+    const size_t N{3};
+    const size_t k{15};
+    const int searches{50};
     
     bst_type bst{};
     std::map<size_t, std::string> map{};
