@@ -5,14 +5,15 @@
 #include <random>
 #include <chrono>
 #include <iostream>
+#include <algorithm>
+#include <functional>
 
 
 int main(){
-
 #ifdef __BST_DEV__
     BST_testing::Tester t;
     t.test();
-#else
+#endif
     using bst_type = BST<size_t, std::string>;
 
     const size_t N{10};
@@ -112,7 +113,5 @@ int main(){
 	bst.clear();
 	map.clear();
     }
-
-#endif
-
 }
+
