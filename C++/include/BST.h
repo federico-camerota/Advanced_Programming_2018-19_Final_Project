@@ -114,7 +114,7 @@ class BST{
 	 * constructor also preserves the structure of the copied BST.
 	 * @param other BST to be copied
 	 */
-	BST (const BST<K,V,Comp> &other)
+	BST (const BST<K,V,Comp> &other) : root{}, compare{}
 	{
 	    insert(*other.root);//recursively inserts all nodes in other starting at the root node
 	}
@@ -132,7 +132,7 @@ class BST{
 	 * Move constructor, create a new BST by swapping members.
 	 * @param other BST to move
 	 */
-	BST (BST<K,V,Comp> &&other) noexcept {
+	BST (BST<K,V,Comp> &&other) noexcept : root{}, compare{} {
 
 	    root.swap(other.root);
 	}
@@ -142,6 +142,7 @@ class BST{
          */
         BST& operator=(BST<K,V,Comp> &&other) noexcept {
             root = std::move(other.root);
+            compare = std::move(other.compare);
             return *this;
         }
 	/**
@@ -271,6 +272,10 @@ class BST_iterator : public std::iterator<std::forward_iterator_tag, std::pair<c
         node_type* current;
 
     public:
+        /**
+         * Constructor
+         * @param n the node to initialize current to
+         */
         BST_iterator(node_type* n) : current{n} {}
         /**
          * dereferencing operator, returns an std::pair<const K, V> of the current node
