@@ -420,7 +420,7 @@ void BST<K,V,Comp>::insert(const key_type& key, const value_type& value){
 	key_type current_key{current_node->data.first};
         if (!compare(current_key, key) && !compare(key, current_key)) { //if the key is already in the tree update the value
 	    current_node->data.second = value;
-	    break;
+	    return;
         }
         else if (compare(key, current_key)) { // if the new key is smaller go to left subtree
 	    previous_node = current_node;
